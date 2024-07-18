@@ -1,0 +1,41 @@
+spring:
+    application:
+        name: campingCars
+    datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/campingCars?createDatabaseIfNotExist=true
+        username: ${MYSQL_USER:}
+        password: ${MYSQL_PASS:}
+    sql:
+        init:
+            mode: never
+    mvc:
+        hiddenmethod:
+            filter:
+                enabled: true
+
+    jpa:
+        defer-datasource-initialization: true
+        hibernate:
+            ddl-auto: update
+        open-in-view: false
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQLDialect
+                format_sql: true
+
+    thymeleaf: # Thymeleaf
+        cache: false
+        mode: HTML
+        encoding: UTF-8
+        prefix: file:src/main/resources/templates/
+    web:
+        resources:
+            static-locations: file:src/main/resources/static/
+            cache:
+                period: 0
+
+logging:
+    level:
+        org.hibernate.SQL: DEBUG
+        org.hibernate.orm.jdbc.bind: TRACE
