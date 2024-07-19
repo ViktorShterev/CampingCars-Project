@@ -1,5 +1,6 @@
 package bg.softuni.campingcars.service.impl;
 
+import bg.softuni.campingcars.model.dto.bindingModels.UserLoginBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.UserRegistrationBindingModel;
 import bg.softuni.campingcars.model.entity.Role;
 import bg.softuni.campingcars.model.entity.User;
@@ -7,8 +8,10 @@ import bg.softuni.campingcars.model.enums.RoleEnum;
 import bg.softuni.campingcars.repository.RoleRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.AuthenticationService;
+import bg.softuni.campingcars.service.session.LoggedUser;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final LoggedUser loggedUser;
 
     @Override
     public boolean registerUser(UserRegistrationBindingModel userRegistrationBindingModel) {
@@ -43,8 +48,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setRoles(Set.of(role));
             user.setActive(true);
             user.setCreated(LocalDateTime.now());
+            user.setPassword(this.passwordEncoder.encode(userRegistrationBindingModel.getPassword()));
 
             this.userRepository.save(user);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean loginUser(UserLoginBindingModel userLoginBindingModel) {
+
+        if (userLoginBindingModel == null) {
+            return false;
+        }
+
+        User user = this.userRepository.findByEmail(userLoginBindingModel.getEmail())
+                .orElse(null);
+
+        if (user != null
+                && this.passwordEncoder.matches(userLoginBindingModel.getPassword(), user.getPassword())) {
+
+            this.loggedUser.setLogged(true);
+            this.loggedUser.setEmail(userLoginBindingModel.getEmail());
+            this.loggedUser.setPassword(userLoginBindingModel.getPassword());
 
             return true;
         }
