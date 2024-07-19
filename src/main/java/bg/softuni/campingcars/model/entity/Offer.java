@@ -19,7 +19,7 @@ public class Offer extends BaseEntity {
     @JdbcTypeCode(Types.VARCHAR)
     private UUID uuid;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String description;
 
     @Column(nullable = false)
@@ -36,7 +36,7 @@ public class Offer extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TransmissionEnum transmission;
 
-    @Column(nullable = false)
+    @Column(name = "horse_power", nullable = false)
     private int horsePower;
 
     @Column(nullable = false)
@@ -45,7 +45,7 @@ public class Offer extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime created;
 
-    @Column(nullable = false)
+    @Column(name = "image_url", nullable = false, columnDefinition = "LONGTEXT")
     private String imageUrl;
 
     @ManyToOne

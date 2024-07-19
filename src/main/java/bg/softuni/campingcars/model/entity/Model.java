@@ -11,10 +11,10 @@ public class Model extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "manufactured_year_start", nullable = false)
     private int manufacturedYearStart;
 
-    @Column(nullable = false)
+    @Column(name = "manufactured_year_end", nullable = false)
     private int manufacturedYearEnd;
 
     @ManyToOne
