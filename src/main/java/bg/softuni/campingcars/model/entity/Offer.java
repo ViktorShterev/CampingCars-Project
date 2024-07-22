@@ -36,11 +36,14 @@ public class Offer extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TransmissionEnum transmission;
 
-    @Column(name = "horse_power", nullable = false)
-    private int horsePower;
+    @Column(name = "horse_power")
+    private Integer horsePower;
 
     @Column(nullable = false)
     private int beds;
+
+    @Column(nullable = false)
+    private int year;
 
     @Column(nullable = false)
     private LocalDateTime created;
@@ -50,6 +53,9 @@ public class Offer extends BaseEntity {
 
     @ManyToOne
     private User seller;
+
+    @ManyToOne
+    private Model model;
 
     @ManyToOne
     private Category category;
@@ -84,7 +90,7 @@ public class Offer extends BaseEntity {
         return this;
     }
 
-    public Offer setHorsePower(int horsePower) {
+    public Offer setHorsePower(Integer horsePower) {
         this.horsePower = horsePower;
         return this;
     }
@@ -111,6 +117,16 @@ public class Offer extends BaseEntity {
 
     public Offer setCategory(Category category) {
         this.category = category;
+        return this;
+    }
+
+    public Offer setYear(int year) {
+        this.year = year;
+        return this;
+    }
+
+    public Offer setModel(Model model) {
+        this.model = model;
         return this;
     }
 }

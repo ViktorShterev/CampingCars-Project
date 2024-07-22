@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/head}">
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</div>
+
+
+<div class="container">
+    <h2 class="text-center text-white">Choose category</h2>
+    <br>
+    <div class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center" style="background: #383d41">
+        <div class="form-group">
+            <h3 class="text-white font-weight-bold">Camper</h3>
+            <img class="rounded" src="/img/roadsurfer_camper-castle.png" height="50%" width="50%" alt="">
+            <div class="row">
+                <div class="col col-md-4">
+                    <div class="button-holder d-flex">
+                        <form th:method="get" th:action="@{/offers/add/camper}">
+                            <input type="submit" class="btn btn-info btn-lg" value="Add Camper"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <hr width="80%" size="50" color="orange" noshade>
+
+            <h3 class="text-white font-weight-bold">Caravan</h3>
+            <img class="rounded" src="/img/Sprite-Space-Caravan.png" height="50%" width="50%" alt="">
+            <div class="row">
+                <div class="col col-md-4">
+                    <div class="button-holder d-flex">
+                        <form th:method="get" th:action="@{/offers/add/caravan}">
+                            <input type="submit" class="btn btn-info btn-lg" value="Add Caravan"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <footer></footer>
+</div>
+
+</body>
+</html>
