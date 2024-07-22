@@ -13,5 +13,12 @@ public class LoggedUser {
 
     private String email;
     private String password;
+    private String firstName;
     private boolean isLogged;
+
+    public void logout() {
+        isLogged = false;
+        this.email = null;
+        this.password = null;
+    }
 }

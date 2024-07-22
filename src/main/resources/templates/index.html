@@ -11,8 +11,16 @@
 </div>
 
 <div class="container-fluid">
-    <h3 class="text-center text-white mt-5">Welcome to Camping Cars!</h3>
-    <h5 class="text-center text-white mt-5">The biggest campers and caravans market!</h5>
+    <div th:if="${@loggedUser.isLogged()}">
+        <h3 class="text-center text-white mt-5"
+            th:text="'We are happy to see you again, ' + ${@loggedUser.firstName} + '!'">Welcome to Camping Cars!</h3>
+    </div>
+    <div th:unless="${@loggedUser.isLogged()}">
+        <h3 class="text-center text-white mt-5"
+            th:text="'Welcome to Camping Cars!'">Welcome to Camping Cars!</h3>
+        <h5 class="text-center text-white mt-5">The biggest campers and caravans market!</h5>
+    </div>
+
 </div>
 
 <div>

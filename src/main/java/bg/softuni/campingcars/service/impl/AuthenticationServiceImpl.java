@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -72,10 +71,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             this.loggedUser.setLogged(true);
             this.loggedUser.setEmail(userLoginBindingModel.getEmail());
+            this.loggedUser.setFirstName(user.getFirstName());
             this.loggedUser.setPassword(userLoginBindingModel.getPassword());
 
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void logoutUser() {
+        this.loggedUser.logout();
     }
 }

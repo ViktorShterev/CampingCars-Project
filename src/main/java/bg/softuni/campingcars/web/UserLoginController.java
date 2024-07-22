@@ -44,4 +44,11 @@ public class UserLoginController {
 
         return modelAndView;
     }
+
+    @PostMapping("/logout")
+    public ModelAndView logout() {
+        this.authenticationService.logoutUser();
+
+        return new ModelAndView("redirect:/");
+    }
 }
