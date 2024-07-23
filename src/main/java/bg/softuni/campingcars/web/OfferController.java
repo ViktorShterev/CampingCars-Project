@@ -1,5 +1,6 @@
 package bg.softuni.campingcars.web;
 
+import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
 import bg.softuni.campingcars.model.enums.EngineEnum;
@@ -8,16 +9,18 @@ import bg.softuni.campingcars.service.BrandService;
 import bg.softuni.campingcars.service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.UUID;
+
 @Controller
-@RequestMapping("/offers")
+@RequestMapping("/offer")
 @RequiredArgsConstructor
 public class OfferController {
 
@@ -43,16 +46,17 @@ public class OfferController {
 
     @PostMapping("/add/camper")
     public ModelAndView addCamperOffer(@ModelAttribute("offerAddCamperBindingModel")
-                                 @Valid OfferAddCamperBindingModel offerAddCamperBindingModel,
-                                 BindingResult bindingResult) {
+                                       @Valid OfferAddCamperBindingModel offerAddCamperBindingModel,
+                                       BindingResult bindingResult,
+                                       @AuthenticationPrincipal UserDetails seller) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("offer-add-camper");
         }
 
-        this.offerService.addCamperOffer(offerAddCamperBindingModel);
+        UUID offerUUID = this.offerService.addCamperOffer(offerAddCamperBindingModel, seller);
 
-        return new ModelAndView("redirect:/offers");
+        return new ModelAndView("redirect:/offer/" + offerUUID);
     }
 
     @GetMapping("/add/caravan")
@@ -67,15 +71,29 @@ public class OfferController {
 
     @PostMapping("/add/caravan")
     public ModelAndView addCaravanOffer(@ModelAttribute("offerAddCaravanBindingModel")
-                                 @Valid OfferAddCaravanBindingModel offerAddCaravanBindingModel,
-                                 BindingResult bindingResult) {
+                                        @Valid OfferAddCaravanBindingModel offerAddCaravanBindingModel,
+                                        BindingResult bindingResult,
+                                        @AuthenticationPrincipal UserDetails seller) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("offer-add-caravan");
         }
 
-        this.offerService.addCaravanOffer(offerAddCaravanBindingModel);
+        UUID offerUUID = this.offerService.addCaravanOffer(offerAddCaravanBindingModel, seller);
 
-        return new ModelAndView("redirect:/offers");
+        return new ModelAndView("redirect:/offer/" + offerUUID);
+    }
+
+    @GetMapping("/{uuid}")
+    public ModelAndView details(@PathVariable("uuid") UUID uuid,
+                          @AuthenticationPrincipal UserDetails viewer) {
+
+        OfferSummaryDTO offerSummaryDTO = this.offerService.getOfferDetail(uuid, viewer)
+                .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
+
+        ModelAndView modelAndView = new ModelAndView("details");
+        modelAndView.addObject("offer", offerSummaryDTO);
+
+        return modelAndView;
     }
 }

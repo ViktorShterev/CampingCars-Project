@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{fragments/head}">
 </head>
@@ -11,11 +13,12 @@
 </div>
 
 <div class="container-fluid">
-    <div th:if="${@loggedUser.isLogged()}">
-        <h3 class="text-center text-white mt-5"
-            th:text="'We are happy to see you, ' + ${@loggedUser.firstName} + '!'">Welcome to Camping Cars!</h3>
+    <div sec:authorize="isAuthenticated()">
+        <h3 class="text-center text-white mt-5">
+           We are happy to see you, <th:block sec:authentication="name"></th:block>
+        </h3>
     </div>
-    <div th:unless="${@loggedUser.isLogged()}">
+    <div sec:authorize="!isAuthenticated()">
         <h3 class="text-center text-white mt-5"
             th:text="'Welcome to Camping Cars!'">Welcome to Camping Cars!</h3>
         <h5 class="text-center text-white mt-5">The biggest campers and caravans market!</h5>

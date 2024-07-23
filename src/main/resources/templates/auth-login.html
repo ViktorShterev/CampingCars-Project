@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head th:replace="~{fragments/head}">
 </head>
@@ -14,35 +14,26 @@
     <h2 class="text-center text-white">Login</h2>
     <form th:method="POST"
           th:action="@{/users/login}"
-          th:object="${userLoginBindingModel}"
+
           class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="form-group">
             <label for="email" class="text-white font-weight-bold">Email</label>
-            <input th:field="*{email}"
-                    th:errorclass="bg-warning"
-                    id="email" name="email" type="text" min="2" max="50"
+            <input id="email"
+                   th:value="${email}"
+                   name="email" type="text" min="2" max="50"
                    class="form-control"
                    placeholder="Email"/>
         </div>
         <div class="form-group">
             <label for="password" class="text-white font-weight-bold">Password</label>
-            <input  th:field="*{password}"
-                    th:errorclass="bg-warning"
-                    id="password" name="password" type="password" min="4"
+            <input id="password" name="password" type="password" min="4"
                    max="30" class="form-control"
                    placeholder="Password"/>
         </div>
 
-        <div th:if="${hasErrors}" th:text="'Incorrect email or password!'" class="text-danger"></div>
-
-        <div th:if="${#fields.hasErrors('email')}"
-             th:errors="*{email}"
-             class="text-danger">
-        </div>
-        <div th:if="${#fields.hasErrors('password')}"
-             th:errors="*{password}"
-             class="text-danger">
-        </div>
+        <p th:if="${bad_credentials}" class="errors alert alert-warning">
+            Invalid email or password.
+        </p>
 
         <br>
 
@@ -57,7 +48,7 @@
 </div>
 
 <div>
-    <footer> </footer>
+    <footer></footer>
 </div>
 </body>
 </html>

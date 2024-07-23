@@ -9,7 +9,7 @@
 
     <nav th:fragment="navbar"
             class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand" href="/"><img alt="car picture" src="/img/Camping.png" class="logo"></a>
+        <a class="navbar-brand" href="/"><img alt="car picture" src="/images/Camping.png" class="logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,13 +21,13 @@
                 >
                     <a class="nav-link" href="/brands/all">All Brands</a>
                 </li>
-                <li th:if="${@loggedUser.isLogged()}" class="nav-item">
-                    <a class="nav-link" th:href="@{/offers/category}">Add Offer</a>
+                <li sec:authorize="isAuthenticated()" class="nav-item">
+                    <a class="nav-link" th:href="@{/offer/category}">Add Offer</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/offers/all">All Offers</a>
                 </li>
-                <li th:if="${@loggedUser.isLogged()}" class="nav-item dropdown">
+                <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Admin
@@ -39,20 +39,21 @@
                         <a class="dropdown-item" href="/">Something else here</a>
                     </div>
                 </li>
-                <li th:if="${@loggedUser.isLogged()}" class="nav-item">
+                <li sec:authorize="isAuthenticated()" class="nav-item">
                     <div class="form-inline my-2 my-lg-0 border px-3">
-                        <div class="logged-user"
-                             th:text="'Welcome, ' + ${@loggedUser.email}"></div>
+                        <div class="logged-user">
+                            Welcome, <th:block sec:authentication="name"></th:block>!
+                        </div>
                         <form th:method="post" th:action="@{/users/logout}">
                             <input type="submit" class="btn btn-link" value="Logout">
                             </form>
                     </div>
                 </li>
 
-                <li th:unless="${@loggedUser.isLogged()}" class="nav-item">
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="nav-link" th:href="@{/users/register}">Register</a>
                 </li>
-                <li th:unless="${@loggedUser.isLogged()}" class="nav-item">
+                <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="nav-link" th:href="@{/users/login}">Login</a>
                 </li>
 

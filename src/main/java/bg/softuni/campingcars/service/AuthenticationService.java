@@ -7,7 +7,7 @@ public interface AuthenticationService {
 
     boolean registerUser(UserRegistrationBindingModel userRegistrationBindingModel);
 
-    boolean loginUser(UserLoginBindingModel userLoginBindingModel);
-
-    void logoutUser();
+//    boolean loginUser(UserLoginBindingModel userLoginBindingModel);
+//
+//    void logoutUser();
 }

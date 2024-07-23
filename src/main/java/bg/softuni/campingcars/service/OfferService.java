@@ -1,11 +1,18 @@
 package bg.softuni.campingcars.service;
 
+import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public interface OfferService {
 
-    void addCamperOffer(OfferAddCamperBindingModel offerAddCamperBindingModel);
+    UUID addCamperOffer(OfferAddCamperBindingModel offerAddCamperBindingModel, UserDetails seller);
 
-    void addCaravanOffer(OfferAddCaravanBindingModel offerAddCaravanBindingModel);
+    UUID addCaravanOffer(OfferAddCaravanBindingModel offerAddCaravanBindingModel, UserDetails seller);
+
+    Optional<OfferSummaryDTO> getOfferDetail(UUID uuid, UserDetails viewer);
 }

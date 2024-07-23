@@ -1,23 +1,24 @@
 package bg.softuni.campingcars.service.impl;
 
+import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
-import bg.softuni.campingcars.model.entity.Category;
-import bg.softuni.campingcars.model.entity.Model;
-import bg.softuni.campingcars.model.entity.Offer;
-import bg.softuni.campingcars.model.entity.User;
+import bg.softuni.campingcars.model.entity.*;
 import bg.softuni.campingcars.model.enums.CategoryEnum;
+import bg.softuni.campingcars.model.enums.RoleEnum;
 import bg.softuni.campingcars.repository.CategoryRepository;
 import bg.softuni.campingcars.repository.ModelRepository;
 import bg.softuni.campingcars.repository.OfferRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.OfferService;
-import bg.softuni.campingcars.service.session.LoggedUser;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,23 +27,71 @@ public class OfferServiceImpl implements OfferService {
     private final OfferRepository offerRepository;
     private final ModelMapper modelMapper;
     private final ModelRepository modelRepository;
-    private final LoggedUser loggedUser;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
     @Override
-    public void addCamperOffer(OfferAddCamperBindingModel offerAddCamperBindingModel) {
-
-        mapDTOtoOffer(offerAddCamperBindingModel);
+    public UUID addCamperOffer(OfferAddCamperBindingModel offerAddCamperBindingModel, UserDetails seller) {
+        return mapDTOtoOffer(offerAddCamperBindingModel, seller);
     }
 
     @Override
-    public void addCaravanOffer(OfferAddCaravanBindingModel offerAddCaravanBindingModel) {
-
-        mapDTOtoOffer(offerAddCaravanBindingModel);
+    public UUID addCaravanOffer(OfferAddCaravanBindingModel offerAddCaravanBindingModel, UserDetails seller) {
+        return mapDTOtoOffer(offerAddCaravanBindingModel, seller);
     }
 
-    private <T> void mapDTOtoOffer(T offerAddBindingModel) {
+    @Override
+    public Optional<OfferSummaryDTO> getOfferDetail(UUID uuid, UserDetails viewer) {
+        return this.offerRepository
+                .findByUuid(uuid)
+                .map(offer -> this.mapAsSummary(offer, viewer));
+    }
+
+    private OfferSummaryDTO mapAsSummary(Offer offer, UserDetails viewer) {
+        return new OfferSummaryDTO(
+                offer.getUuid().toString(),
+                offer.getModel().getBrand().getName(),
+                offer.getModel().getName(),
+                offer.getDescription(),
+                offer.getYear(),
+                offer.getMileage(),
+                offer.getImageUrl(),
+                offer.getPrice(),
+                offer.getEngine(),
+                offer.getTransmission(),
+                offer.getSeller().getFirstName() + " " + offer.getSeller().getLastName(),
+                isOwner(offer, viewer != null ? viewer.getUsername() : null),
+                offer.getCreated().toString()
+        );
+    }
+
+    private boolean isOwner(Offer offer, String username) {
+
+        if (offer == null || username == null) {
+//          anonymous users own no offers
+//          missing offers are meaningless
+            return false;
+        }
+
+        User user = this.userRepository.findByEmail(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (isAdmin(user)) {
+            //all admins own all offers
+            return true;
+        }
+
+        return user.getId().equals(offer.getSeller().getId());
+    }
+
+    private boolean isAdmin(User user) {
+        return user.getRoles()
+                .stream()
+                .map(Role::getRole)
+                .anyMatch(r -> RoleEnum.ADMIN == r);
+    }
+
+    private <T> UUID mapDTOtoOffer(T offerAddBindingModel, UserDetails seller) {
         if (offerAddBindingModel != null) {
             Offer offer = this.modelMapper.map(offerAddBindingModel, Offer.class);
 
@@ -61,7 +110,7 @@ public class OfferServiceImpl implements OfferService {
             Model model = this.modelRepository.findById(modelId)
                     .orElseThrow(() -> new IllegalArgumentException("Invalid Model"));
 
-            User user = this.userRepository.findByEmail(this.loggedUser.getEmail())
+            User user = this.userRepository.findByEmail(seller.getUsername())
                     .orElseThrow(() -> new IllegalArgumentException("Invalid User"));
 
             Category categoryEntity = this.categoryRepository.findByCategory(category)
@@ -73,6 +122,9 @@ public class OfferServiceImpl implements OfferService {
             offer.setCreated(LocalDateTime.now());
 
             this.offerRepository.save(offer);
+
+            return offer.getUuid();
         }
+        return null;
     }
 }
