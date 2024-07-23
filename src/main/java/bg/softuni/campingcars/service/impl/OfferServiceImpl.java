@@ -3,6 +3,7 @@ package bg.softuni.campingcars.service.impl;
 import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
+import bg.softuni.campingcars.model.dto.views.OfferViewModel;
 import bg.softuni.campingcars.model.entity.*;
 import bg.softuni.campingcars.model.enums.CategoryEnum;
 import bg.softuni.campingcars.model.enums.RoleEnum;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,6 +62,26 @@ public class OfferServiceImpl implements OfferService {
                 .orElse(null);
 
         return isOwner(offer, username);
+    }
+
+    @Override
+    public List<OfferViewModel> findAllOffers() {
+        return this.offerRepository.findAll()
+                .stream()
+                .map(this::mapped)
+                .toList();
+    }
+
+    private OfferViewModel mapped(Offer offer) {
+        return new OfferViewModel(
+                offer.getUuid().toString(),
+                offer.getModel().getBrand().getName(),
+                offer.getModel().getName(),
+                offer.getCategory().toString(),
+                offer.getYear(),
+                offer.getPrice(),
+                offer.getImageUrl()
+        );
     }
 
     private OfferSummaryDTO mapAsSummary(Offer offer, UserDetails viewer) {
