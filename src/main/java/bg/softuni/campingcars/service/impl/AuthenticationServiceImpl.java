@@ -1,6 +1,5 @@
 package bg.softuni.campingcars.service.impl;
 
-import bg.softuni.campingcars.model.dto.bindingModels.UserLoginBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.UserRegistrationBindingModel;
 import bg.softuni.campingcars.model.entity.Role;
 import bg.softuni.campingcars.model.entity.User;
@@ -53,6 +52,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         return false;
     }
-
-
 }

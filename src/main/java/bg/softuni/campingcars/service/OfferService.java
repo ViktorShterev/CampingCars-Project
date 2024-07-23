@@ -15,4 +15,8 @@ public interface OfferService {
     UUID addCaravanOffer(OfferAddCaravanBindingModel offerAddCaravanBindingModel, UserDetails seller);
 
     Optional<OfferSummaryDTO> getOfferDetail(UUID uuid, UserDetails viewer);
+
+    void deleteOffer(UUID uuid);
+
+    boolean isOwner(UUID uuid, String username);
 }

@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     Optional<Offer> findByUuid(UUID uuid);
+
+    void deleteByUuid(UUID uuid);
 }

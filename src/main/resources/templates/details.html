@@ -17,27 +17,48 @@
         <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0" >
 
             <div class="card-body pb-1">
-                <h5 class="card-title">
+                <h5 class="card-title" th:text="${offer.summary()}">
                     Offer year Brand name Model name</h5>
             </div>
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item">
-                    <div class="card-text"><span>• Mileage</span></div>
-                    <div class="card-text"><span>• Price</span></div>
-                    <div class="card-text"><span>• Engine type</span></div>
-                    <div class="card-text"><span>• Transmission type</span></div>
-                    <div class="card-text"><span>• Offer created</span></div>
+                    <div th:if="${offer.category == 'CAMPER'}" class="card-text">
+                        <span>• Mileage</span>
+                        <th:block th:text="${offer.mileage}"></th:block>
+                    </div>
+                    <div class="card-text">
+                        <span>• Price</span>
+                        <th:block th:text="${offer.price}"></th:block>
+                    </div>
+                    <div th:if="${offer.category == 'CAMPER'}" class="card-text">
+                        <span>• Engine type</span>
+                        <th:block th:text="${offer.engine.name()}"></th:block>
+                    </div>
+                    <div th:if="${offer.category == 'CAMPER'}" class="card-text">
+                        <span>• Transmission type</span>
+                        <th:block th:text="${offer.transmission.name()}"></th:block>
+                    </div>
+                    <div class="card-text">
+                        <span>• Offer created</span>
+                        <th:block th:text="${offer.created}"></th:block>
+                    </div>
                     <div class="card-text"><span>• Offer modified</span></div>
-                    <div class="card-text"><span>• Seller - First and Last name</span></div>
+                    <div class="card-text">
+                        <span>• Seller </span>
+                        <th:block th:text="${offer.seller}"></th:block>
+                    </div>
                 </li>
             </ul>
-            <div class="card-body">
+            <div class="card-body" th:if="${offer.viewerIsOwner}">
                 <a class="card-link" href="/">Update</a>
-                <a class="card-link" href="/">Delete</a>
+                <form th:method="delete"
+                      th:action="@{/offer/{uuid}(uuid=${offer.uuid})}">
+                    <input type="submit" value="Delete" class="link card-link"/>
+                </form>
             </div>
         </div>
         <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
-            <img src="/" class="card-img-top"  alt="Car image">
+            <img th:src="${offer.image}" class="card-img-top"  alt="Car image">
         </div>
     </div>
 </div>

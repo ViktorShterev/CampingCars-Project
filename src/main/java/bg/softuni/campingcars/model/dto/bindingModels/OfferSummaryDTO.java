@@ -10,6 +10,7 @@ public record OfferSummaryDTO(
         String brand,
         String model,
         String description,
+        String category,
         int year,
         Long mileage,
         String image,

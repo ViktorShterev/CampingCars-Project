@@ -9,6 +9,7 @@ import bg.softuni.campingcars.service.BrandService;
 import bg.softuni.campingcars.service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -95,5 +96,15 @@ public class OfferController {
         modelAndView.addObject("offer", offerSummaryDTO);
 
         return modelAndView;
+    }
+
+    @PreAuthorize("@offerServiceImpl.isOwner(#uuid, #principal.username)")
+    @DeleteMapping("/{uuid}")
+    public String delete(@PathVariable("uuid") UUID uuid,
+                         @AuthenticationPrincipal UserDetails principal) {
+
+        this.offerService.deleteOffer(uuid);
+
+        return "redirect:/offers/all";
     }
 }

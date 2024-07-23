@@ -11,6 +11,7 @@ import bg.softuni.campingcars.repository.ModelRepository;
 import bg.softuni.campingcars.repository.OfferRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.OfferService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,12 +48,27 @@ public class OfferServiceImpl implements OfferService {
                 .map(offer -> this.mapAsSummary(offer, viewer));
     }
 
+    @Override
+    @Transactional
+    public void deleteOffer(UUID uuid) {
+        this.offerRepository.deleteByUuid(uuid);
+    }
+
+    @Override
+    public boolean isOwner(UUID uuid, String username) {
+        Offer offer = this.offerRepository.findByUuid(uuid)
+                .orElse(null);
+
+        return isOwner(offer, username);
+    }
+
     private OfferSummaryDTO mapAsSummary(Offer offer, UserDetails viewer) {
         return new OfferSummaryDTO(
                 offer.getUuid().toString(),
                 offer.getModel().getBrand().getName(),
                 offer.getModel().getName(),
                 offer.getDescription(),
+                offer.getCategory().toString(),
                 offer.getYear(),
                 offer.getMileage(),
                 offer.getImageUrl(),
@@ -120,6 +136,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setSeller(user);
             offer.setCategory(categoryEntity);
             offer.setCreated(LocalDateTime.now());
+            offer.setUuid(UUID.randomUUID());
 
             this.offerRepository.save(offer);
 
