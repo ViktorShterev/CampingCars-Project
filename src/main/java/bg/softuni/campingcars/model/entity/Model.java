@@ -11,11 +11,8 @@ public class Model extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(name = "manufactured_year_start", nullable = false)
-    private int manufacturedYearStart;
-
-    @Column(name = "manufactured_year_end", nullable = false)
-    private int manufacturedYearEnd;
+    @ManyToOne
+    private Category category;
 
     @ManyToOne
     private Brand brand;
@@ -30,13 +27,8 @@ public class Model extends BaseEntity {
         return this;
     }
 
-    public Model setManufacturedYearStart(int manufacturedYearStart) {
-        this.manufacturedYearStart = manufacturedYearStart;
-        return this;
-    }
-
-    public Model setManufacturedYearEnd(int manufacturedYearEnd) {
-        this.manufacturedYearEnd = manufacturedYearEnd;
+    public Model setCategory(Category category) {
+        this.category = category;
         return this;
     }
 }

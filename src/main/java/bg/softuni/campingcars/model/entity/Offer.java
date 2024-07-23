@@ -22,17 +22,17 @@ public class Offer extends BaseEntity {
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String description;
 
-    @Column(nullable = false)
-    private long mileage;
+    @Column
+    private Long mileage;
 
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private EngineEnum engine;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private TransmissionEnum transmission;
 

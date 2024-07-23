@@ -32,7 +32,7 @@ public class BrandServiceImpl implements BrandService {
 
             brand.getModels()
                     .forEach(model -> {
-                        ModelDTO modelDTO = new ModelDTO(model.getId(), model.getName());
+                        ModelDTO modelDTO = new ModelDTO(model.getId(), model.getName(), model.getCategory().getId());
 
                         modelDTOS.add(modelDTO);
                     });

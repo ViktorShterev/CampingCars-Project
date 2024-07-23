@@ -1,9 +1,6 @@
 package bg.softuni.campingcars.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -17,7 +14,7 @@ public class Brand extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand",fetch = FetchType.EAGER)
     private Set<Model> models;
 
     public Brand() {

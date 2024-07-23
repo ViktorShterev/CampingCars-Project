@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService {
@@ -68,6 +70,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setModel(model);
             offer.setSeller(user);
             offer.setCategory(categoryEntity);
+            offer.setCreated(LocalDateTime.now());
 
             this.offerRepository.save(offer);
         }

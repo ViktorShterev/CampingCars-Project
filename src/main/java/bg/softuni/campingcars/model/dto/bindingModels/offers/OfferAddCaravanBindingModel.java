@@ -35,6 +35,4 @@ public class OfferAddCaravanBindingModel {
     @NotNull
     @Positive
     private Integer beds;
-
-    private CategoryEnum category;
 }

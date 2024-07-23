@@ -1,4 +1,4 @@
 package bg.softuni.campingcars.model.dto.bindingModels;
 
-public record ModelDTO(Long id, String name) {
+public record ModelDTO(Long id, String name, Long category_id) {
 }

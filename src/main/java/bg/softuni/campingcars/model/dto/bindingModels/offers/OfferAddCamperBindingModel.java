@@ -21,5 +21,7 @@ public class OfferAddCamperBindingModel extends OfferAddCaravanBindingModel {
     @Positive
     private Long mileage;
 
+    @NotNull
+    @Positive
     private Integer horsePower;
 }
