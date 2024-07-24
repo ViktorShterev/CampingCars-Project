@@ -31,7 +31,7 @@
                             th:label="${brand.name}">
                         <option
                                 th:each="model : ${brand.models}"
-                                th:if="${model.category_id == 1}"
+                                th:if="${model.categoryId == 1}"
                                 th:text="${model.name}"
                                 th:value="${model.id}"
                                 th:selected="${model.id} == *{modelId}">Model

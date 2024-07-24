@@ -1,6 +1,5 @@
 package bg.softuni.campingcars.web;
 
-import bg.softuni.campingcars.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserLoginController {
-
-    private final AuthenticationService authenticationService;
 
     @GetMapping("/login")
     public ModelAndView login() {

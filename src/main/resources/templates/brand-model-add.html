@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/head}">
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white">Add Brand/Model</h2>
+    <form th:method="POST"
+          th:action="@{/brand/add}"
+          th:object="${brandModelAddBindingModel}"
+          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="row">
+
+            <div class="form-group col-md-6 mb-3">
+                <label for="brand" class="text-white font-weight-bold">Brand</label>
+                <input th:field="*{brand}"
+                       th:errorclass="bg-warning"
+                       id="brand" type="text" min="2" max="30" class="form-control"
+                       placeholder="Brand"/>
+                <p th:if="${#fields.hasErrors('brand')}"
+                   th:errors="*{brand}"
+                   class="errors alert alert-danger">
+                    Brand is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="model" class="text-white font-weight-bold">Model</label>
+                <input th:field="*{model}"
+                       th:errorclass="bg-warning"
+                       id="model" type="text" min="2" max="50" class="form-control"
+                       placeholder="Model"/>
+                <p th:if="${#fields.hasErrors('model')}"
+                   th:errors="*{model}"
+                   class="errors alert alert-danger">
+                    Model is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="category">Category</label>
+                <select id="category"
+                        th:field="*{category}"
+                        th:errorclass="bg-warning"
+                        class="form-control">
+                    <option value="">- Select category -</option>
+                    <option th:each="c : ${categories}"
+                            th:text="${c}"
+                            th:value="${c}"
+                            th:selected="${c} == *{category}">
+                        Category
+                    </option>
+                </select>
+                <p th:if="${#fields.hasErrors('category')}"
+                   th:errors="*{category}"
+                   class="errors alert alert-danger">
+                    Category is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg" value="Add"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <footer></footer>
+</div>
+
+</body>
+</html>

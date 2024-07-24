@@ -1,5 +1,6 @@
 package bg.softuni.campingcars.web;
 
+import bg.softuni.campingcars.model.dto.bindingModels.BrandDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
@@ -17,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -32,16 +34,25 @@ public class OfferController {
         return new ModelAndView("offer-category");
     }
 
+    @ModelAttribute("brands")
+    public List<BrandDTO> brands() {
+        return this.brandService.getAllBrands();
+    }
+
+    @ModelAttribute("engines")
+    public EngineEnum[] engines() {
+        return EngineEnum.values();
+    }
+
+    @ModelAttribute("transmissions")
+    public TransmissionEnum[] transmissions() {
+        return TransmissionEnum.values();
+    }
+
     @GetMapping("/add/camper")
     public ModelAndView addCamperOffer(@ModelAttribute("offerAddCamperBindingModel") OfferAddCamperBindingModel offerAddCamperBindingModel) {
 
-        ModelAndView modelAndView = new ModelAndView("offer-add-camper");
-
-        modelAndView.addObject("brands", this.brandService.getAllBrands());
-        modelAndView.addObject("engines", EngineEnum.values());
-        modelAndView.addObject("transmissions", TransmissionEnum.values());
-
-        return modelAndView;
+        return new ModelAndView("offer-add-camper");
     }
 
     @PostMapping("/add/camper")
@@ -62,11 +73,7 @@ public class OfferController {
     @GetMapping("/add/caravan")
     public ModelAndView addCaravanOffer(@ModelAttribute("offerAddCaravanBindingModel") OfferAddCaravanBindingModel offerAddCaravanBindingModel) {
 
-        ModelAndView modelAndView = new ModelAndView("offer-add-caravan");
-
-        modelAndView.addObject("brands", this.brandService.getAllBrands());
-
-        return modelAndView;
+        return new ModelAndView("offer-add-caravan");
     }
 
     @PostMapping("/add/caravan")
