@@ -15,6 +15,8 @@ import bg.softuni.campingcars.service.OfferService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -65,11 +67,9 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<OfferViewModel> findAllOffers() {
-        return this.offerRepository.findAll()
-                .stream()
-                .map(this::mapped)
-                .toList();
+    public Page<OfferViewModel> findAllOffers(Pageable pageable) {
+        return this.offerRepository.findAll(pageable)
+                .map(this::mapped);
     }
 
     private OfferViewModel mapped(Offer offer) {

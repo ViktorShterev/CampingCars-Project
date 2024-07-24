@@ -4,7 +4,6 @@ import bg.softuni.campingcars.model.dto.bindingModels.BrandDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.ModelDTO;
 import bg.softuni.campingcars.model.entity.Brand;
 import bg.softuni.campingcars.repository.BrandRepository;
-import bg.softuni.campingcars.repository.ModelRepository;
 import bg.softuni.campingcars.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

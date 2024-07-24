@@ -27,7 +27,7 @@
     <div class="row" id="offersContainer">
         <div th:each="offer : ${offers}" class="col-md-4 mb-4 offer-card" th:data-category="${offer.category}">
             <div class="card bg-dark text-white">
-                <img th:src="@{${offer.imageUrl}}" class="card-img-top" th:alt="${offer.model}">
+                <img th:src="@{${offer.imageUrl}}" class="card-img-top" width="120px" height="200px" th:alt="${offer.model}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${offer.brand}"></h5>
                     <h6 class="card-title" th:text="${offer.model}"></h6>
@@ -38,6 +38,58 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="container mt-5">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            <!-- First page logic start -->
+            <li class="page-item" th:classappend="${offers.isFirst() ? 'disabled' : ''}">
+                <a th:if="${offers.isFirst()}" class="page-link" href="#" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+                <a th:unless="${offers.isFirst()}" class="page-link" th:href="@{/offers/all(size=${offers.getSize()})}" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <!-- EO: First page logic start -->
+
+            <!-- Previous page logic start -->
+            <li class="page-item" th:classappend="${offers.isFirst() ? 'disabled' : ''}">
+                <a th:if="${offers.isFirst()}" class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                Previous</a>
+                <a th:unless="${offers.isFirst()}" class="page-link" th:href="@{/offers/all(size=${offers.getSize()}, page=${offers.getNumber() - 1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                Previous</a>
+            </li>
+            <!-- EO: Previous page logic end -->
+
+            <!-- Next page logic start -->
+            <li class="page-item" th:classappend="${offers.isLast() ? 'disabled' : ''}">
+                <a th:if="${offers.isLast()}" class="page-link" href="#" aria-label="Next">
+                    Next <span aria-hidden="true">&raquo;</span>
+                </a>
+                <a th:unless="${offers.isLast()}" class="page-link" th:href="@{/offers/all(size=${offers.getSize()}, page=${offers.getNumber() + 1})}" aria-label="Next">
+                    Next <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <!-- EO: Next page logic end -->
+
+            <!-- Last page logic start -->
+            <li class="page-item" th:classappend="${offers.isLast() ? 'disabled' : ''}">
+                <a th:if="${offers.isLast()}" class="page-link" href="#" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+                <a th:unless="${offers.isLast()}" class="page-link" th:href="@{/offers/all(size=${offers.getSize()}, page=${offers.getTotalPages() - 1})}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+            <!-- EO: Last page logic end -->
+
+        </ul>
+    </nav>
 </div>
 
 <script>

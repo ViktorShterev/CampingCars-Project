@@ -1,7 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 
 <head th:replace="~{fragments/head}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .brand-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-section h2 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .brand-section table {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .brand-section table th {
+            text-align: left;
+            padding: 8px;
+            background-color: #007bff;
+            color: white;
+        }
+
+        .brand-section table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .brand-section table td {
+            padding: 8px;
+            color: #343a40;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,38 +49,38 @@
 
 <div class="container">
     <h2 class="text-center text-white m-3">All Brands</h2>
-    <div class='row mb-4 d-flex justify-content-around'>
-        <div  class="brand-section col-md-5 mr-auto d-flex flex-column">
-            <h2>Car brand:
-                <span >Brand name</span>
-            </h2>
-            <div>Models:
-                <table>
+
+    <div class="row mb-4 d-flex justify-content-around">
+        <div th:each="brand : ${brands}" class="brand-section col-md-5 d-flex flex-column">
+            <h2><span th:text="${brand.name}">Brand name</span></h2>
+            <div>
+                <p style="font-size: 14px; font-weight: bold;">Models:</p>
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <th>No</th>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Start Year</th>
-                        <th>End Year</th>
-                        <th>Picture</th>
                     </tr>
-                    <tr>
-                        <th>No</th>
-                        <th >Model Name</th>
-                        <th >Model Category</th>
-                        <th >Model Start Year</th>
-                        <th >Model End Year</th>
-                        <th><img alt="image" src="/"
-                                 class="img-thumbnail rounded"></th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="model : ${brand.models}">
+                        <td th:text="${model.name}">Model Name</td>
+                        <td th:text="${model.categoryId == 1 ? 'Camper' : 'Caravan'}">Model Category</td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <div>
-             <footer> </footer>
+        <footer></footer>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

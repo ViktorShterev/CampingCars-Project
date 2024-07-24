@@ -29,6 +29,7 @@ public class SecurityConfig {
 //                        Allow anyone to see the home, login and register form and page
                         .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
                         .requestMatchers("/offers/all").permitAll()
+                        .requestMatchers("/brand/all").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/offer/**").permitAll()
                         .requestMatchers("/brands").hasRole(RoleEnum.ADMIN.name())

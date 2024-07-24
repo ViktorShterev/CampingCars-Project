@@ -19,7 +19,7 @@
             <ul class="navbar-nav mr-auto col-12 justify-content-between">
                 <li class="nav-item"
                 >
-                    <a class="nav-link" href="/brands/all">All Brands</a>
+                    <a class="nav-link" th:href="@{/brand/all}">All Brands</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
                     <a class="nav-link" th:href="@{/offer/category}">Add Offer</a>

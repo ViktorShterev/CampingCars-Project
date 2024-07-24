@@ -4,9 +4,10 @@ import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
 import bg.softuni.campingcars.model.dto.views.OfferViewModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,5 +23,5 @@ public interface OfferService {
 
     boolean isOwner(UUID uuid, String username);
 
-    List<OfferViewModel> findAllOffers();
+    Page<OfferViewModel> findAllOffers(Pageable pageable);
 }
