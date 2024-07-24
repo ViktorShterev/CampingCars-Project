@@ -27,7 +27,7 @@ public class SecurityConfig {
 //                        All static resources which are situated in js, images, css are visible to anyone
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 //                        Allow anyone to see the home, login and register form and page
-                        .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
+                        .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
                         .requestMatchers("/offers/all").permitAll()
                         .requestMatchers("/brand/all").permitAll()
                         .requestMatchers("/error").permitAll()
