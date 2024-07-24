@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head th:replace="~{fragments/head}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .filter-button.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -10,18 +18,11 @@
     <nav th:replace="~{fragments/navbar}"></nav>
 </div>
 
-
 <div class="container">
     <h2 class="text-center text-white mb-4">All Offers</h2>
     <div class="mb-4">
-        <div class="form-check form-check-inline text-white">
-            <input class="form-check-input" type="checkbox" id="camperCheckbox" value="camper" onclick="filterOffers()">
-            <label class="form-check-label" for="camperCheckbox">Camper</label>
-        </div>
-        <div class="form-check form-check-inline text-white">
-            <input class="form-check-input" type="checkbox" id="caravanCheckbox" value="caravan" onclick="filterOffers()">
-            <label class="form-check-label" for="caravanCheckbox">Caravan</label>
-        </div>
+        <button class="btn btn-outline-primary filter-button" id="camperButton" data-filter="CAMPER" onclick="filterOffers('CAMPER')">Camper</button>
+        <button class="btn btn-outline-primary filter-button" id="caravanButton" data-filter="CARAVAN" onclick="filterOffers('CARAVAN')">Caravan</button>
     </div>
     <div class="row" id="offersContainer">
         <div th:each="offer : ${offers}" class="col-md-4 mb-4 offer-card" th:data-category="${offer.category}">
@@ -32,7 +33,7 @@
                     <h6 class="card-title" th:text="${offer.model}"></h6>
                     <p class="card-text" th:text="${offer.year}"></p>
                     <p class="card-text" th:text="${offer.price}"></p>
-                    <a th:href="@{/offer/{uuid}(uuid=${offer.uuid})}" class="btn btn-info">View Details</a>
+                    <a th:href="@{/offer/{uuid}(uuid=${offer.uuid})}" class="btn btn-info" style="background-color: #007bff">View Details</a>
                 </div>
             </div>
         </div>
@@ -40,16 +41,21 @@
 </div>
 
 <script>
-    function filterOffers() {
-        const camperChecked = document.getElementById('camperCheckbox').checked;
-        const caravanChecked = document.getElementById('caravanCheckbox').checked;
+    function filterOffers(category) {
+        const buttons = document.querySelectorAll('.filter-button');
+        buttons.forEach(btn => {
+            if (btn.getAttribute('data-filter') === category) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
 
         const offers = document.querySelectorAll('.offer-card');
-
         offers.forEach(offer => {
-            const category = offer.getAttribute('data-category');
+            const offerCategory = offer.getAttribute('data-category');
 
-            if ((category === 'CAMPER' && camperChecked) || (category === 'CARAVAN' && caravanChecked)) {
+            if (category === "ALL" || offerCategory === category) {
                 offer.style.display = 'block';
             } else {
                 offer.style.display = 'none';
@@ -57,9 +63,14 @@
         });
     }
 
-    // Initial call to show offers if any checkbox is already checked
-    document.addEventListener('DOMContentLoaded', filterOffers);
+    // Initial call to show all offers on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        filterOffers("ALL");
+    });
 </script>
+</body>
+</html>
+
 
 <div>
     <footer></footer>

@@ -77,7 +77,7 @@ public class OfferServiceImpl implements OfferService {
                 offer.getUuid().toString(),
                 offer.getModel().getBrand().getName(),
                 offer.getModel().getName(),
-                offer.getCategory().toString(),
+                offer.getCategory().getCategory().name(),
                 offer.getYear(),
                 offer.getPrice(),
                 offer.getImageUrl()
@@ -90,7 +90,7 @@ public class OfferServiceImpl implements OfferService {
                 offer.getModel().getBrand().getName(),
                 offer.getModel().getName(),
                 offer.getDescription(),
-                offer.getCategory().toString(),
+                offer.getCategory().getCategory().name(),
                 offer.getYear(),
                 offer.getMileage(),
                 offer.getImageUrl(),
@@ -99,7 +99,7 @@ public class OfferServiceImpl implements OfferService {
                 offer.getTransmission(),
                 offer.getSeller().getFirstName() + " " + offer.getSeller().getLastName(),
                 isOwner(offer, viewer != null ? viewer.getUsername() : null),
-                offer.getCreated().toString()
+                offer.getCreated()
         );
     }
 

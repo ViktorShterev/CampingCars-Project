@@ -4,6 +4,7 @@ import bg.softuni.campingcars.model.enums.EngineEnum;
 import bg.softuni.campingcars.model.enums.TransmissionEnum;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public record OfferSummaryDTO(
         String uuid,
@@ -19,7 +20,7 @@ public record OfferSummaryDTO(
         TransmissionEnum transmission,
         String seller,
         boolean viewerIsOwner,
-        String created
+        LocalDateTime created
 ) {
     public String summary() {
         return brand + " " + model + ", " + year;
