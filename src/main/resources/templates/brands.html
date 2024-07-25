@@ -65,7 +65,7 @@
                     <tbody>
                     <tr th:each="model : ${brand.models}">
                         <td th:text="${model.name}">Model Name</td>
-                        <td th:text="${model.categoryId == 1 ? 'Camper' : 'Caravan'}">Model Category</td>
+                        <td th:text="${model.category.equals('CAMPER') ? 'Camper' : 'Caravan'}">Model Category</td>
                     </tr>
                     </tbody>
                 </table>

@@ -1,6 +1,7 @@
 package bg.softuni.campingcars.service.impl;
 
 import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
+import bg.softuni.campingcars.model.dto.bindingModels.UpdateOfferBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
 import bg.softuni.campingcars.model.dto.views.OfferViewModel;
@@ -71,6 +72,59 @@ public class OfferServiceImpl implements OfferService {
                 .map(this::mapped);
     }
 
+    @Override
+    public void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel) {
+        updatingOffer(uuid, updateOfferBindingModel);
+    }
+
+    @Override
+    public UpdateOfferBindingModel getOfferForUpdate(UUID uuid, UserDetails viewer) {
+        OfferSummaryDTO offerSummaryDTO = getOfferDetail(uuid, viewer)
+                .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
+
+        return new UpdateOfferBindingModel(
+                offerSummaryDTO.uuid(),
+                offerSummaryDTO.category(),
+                offerSummaryDTO.model(),
+                offerSummaryDTO.description(),
+                offerSummaryDTO.year(),
+                offerSummaryDTO.beds(),
+                offerSummaryDTO.mileage(),
+                offerSummaryDTO.horsepower(),
+                offerSummaryDTO.imageUrl(),
+                offerSummaryDTO.price(),
+                offerSummaryDTO.engine(),
+                offerSummaryDTO.transmission()
+        );
+    }
+
+    private void updatingOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel) {
+        Offer offer = this.offerRepository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("Offer not found"));
+
+        offer.setDescription(updateOfferBindingModel.description());
+        offer.setPrice(updateOfferBindingModel.price());
+        offer.setBeds(updateOfferBindingModel.beds());
+        offer.setYear(updateOfferBindingModel.year());
+        offer.setModified(LocalDateTime.now());
+        offer.setImageUrl(updateOfferBindingModel.imageUrl());
+
+        Model model = this.modelRepository.findByName(updateOfferBindingModel.model())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Model"));
+
+        offer.setModel(model);
+
+        if (offer.getCategory().getCategory().name().equals("CAMPER")) {
+
+            offer.setMileage(updateOfferBindingModel.mileage());
+            offer.setEngine(updateOfferBindingModel.engine());
+            offer.setTransmission(updateOfferBindingModel.transmission());
+            offer.setHorsePower(updateOfferBindingModel.horsepower());
+        }
+
+        this.offerRepository.save(offer);
+    }
+
     private OfferViewModel mapped(Offer offer) {
         return new OfferViewModel(
                 offer.getUuid().toString(),
@@ -91,14 +145,17 @@ public class OfferServiceImpl implements OfferService {
                 offer.getDescription(),
                 offer.getCategory().getCategory().name(),
                 offer.getYear(),
+                offer.getBeds(),
                 offer.getMileage(),
+                offer.getHorsePower(),
                 offer.getImageUrl(),
                 offer.getPrice(),
                 offer.getEngine(),
                 offer.getTransmission(),
                 offer.getSeller().getFirstName() + " " + offer.getSeller().getLastName(),
                 isOwner(offer, viewer != null ? viewer.getUsername() : null),
-                offer.getCreated()
+                offer.getCreated(),
+                offer.getModified()
         );
     }
 

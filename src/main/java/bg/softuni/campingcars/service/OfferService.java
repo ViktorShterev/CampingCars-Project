@@ -1,6 +1,7 @@
 package bg.softuni.campingcars.service;
 
 import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
+import bg.softuni.campingcars.model.dto.bindingModels.UpdateOfferBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
 import bg.softuni.campingcars.model.dto.views.OfferViewModel;
@@ -24,4 +25,8 @@ public interface OfferService {
     boolean isOwner(UUID uuid, String username);
 
     Page<OfferViewModel> findAllOffers(Pageable pageable);
+
+    void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel);
+
+    UpdateOfferBindingModel getOfferForUpdate(UUID uuid, UserDetails viewer);
 }

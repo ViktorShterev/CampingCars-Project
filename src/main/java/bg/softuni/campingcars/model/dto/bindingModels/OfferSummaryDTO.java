@@ -13,14 +13,17 @@ public record OfferSummaryDTO(
         String description,
         String category,
         int year,
+        int beds,
         Long mileage,
-        String image,
+        int horsepower,
+        String imageUrl,
         BigDecimal price,
         EngineEnum engine,
         TransmissionEnum transmission,
         String seller,
         boolean viewerIsOwner,
-        LocalDateTime created
+        LocalDateTime created,
+        LocalDateTime modified
 ) {
     public String summary() {
         return brand + " " + model + ", " + year;

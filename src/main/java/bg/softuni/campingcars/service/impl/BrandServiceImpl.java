@@ -35,7 +35,7 @@ public class BrandServiceImpl implements BrandService {
 
             brand.getModels()
                     .forEach(model -> {
-                        ModelDTO modelDTO = new ModelDTO(model.getId(), model.getName(), model.getCategory().getId());
+                        ModelDTO modelDTO = new ModelDTO(model.getId(), model.getName(), model.getCategory().getCategory().name());
 
                         modelDTOS.add(modelDTO);
                     });

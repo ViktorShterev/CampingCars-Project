@@ -48,6 +48,9 @@ public class Offer extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime created;
 
+    @Column
+    private LocalDateTime modified;
+
     @Column(name = "image_url", nullable = false, columnDefinition = "LONGTEXT")
     private String imageUrl;
 
@@ -67,11 +70,6 @@ public class Offer extends BaseEntity {
 
     public Offer setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public Offer setMileage(long mileage) {
-        this.mileage = mileage;
         return this;
     }
 
@@ -127,6 +125,16 @@ public class Offer extends BaseEntity {
 
     public Offer setModel(Model model) {
         this.model = model;
+        return this;
+    }
+
+    public Offer setMileage(Long mileage) {
+        this.mileage = mileage;
+        return this;
+    }
+
+    public Offer setModified(LocalDateTime modified) {
+        this.modified = modified;
         return this;
     }
 }

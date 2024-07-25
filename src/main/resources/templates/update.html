@@ -13,52 +13,86 @@
 
 <div class="container">
     <h2 class="text-center text-white">Update Offer</h2>
-    <form method="POST"
-          class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+    <form
+            th:object="${updateOfferBindingModel}"
+
+            th:method="PUT"
+            th:action="@{/offer/update/{uuid}(uuid=${updateOfferBindingModel.uuid})}"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="model">Model</label>
-                <select id="model" class="form-control">
-                    <option value="">- Select a model -</option>
-                    <optgroup label="Brand name">
-                        <option>Model</option>
+                <select id="model" class="form-control"
+                        th:name="model"
+                        th:field="*{model}"
+                        th:errorclass="is-invalid">
+
+                    <option disabled value="">- Select a model -</option>
+                    <optgroup
+                            th:each="brand : ${brands}"
+                            th:label="${brand.name}">
+                        <option
+                                th:each="model : ${brand.models}"
+                                th:if="${#strings.equals(model.category, updateOfferBindingModel.category)}"
+                                th:text="${model.name}"
+                                th:value="${model.name}"
+                                th:selected="${model.name} == ${updateOfferBindingModel.model}">Model
+                            >
+                        </option>
                     </optgroup>
                 </select>
-                <p class="errors alert alert-danger">
-                    Vechicle model is required.
+                <p class="invalid-feedback errors alert alert-warning">
+                    Vehicle model is required.
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="price" class="text-white font-weight-bold">Price</label>
-                <input  id="price" type="number" min="0" step="100" class="form-control"
+                <input th:value="${updateOfferBindingModel.price}"
+                       id="price"
+                       th:name="price"
+                       th:field="*{price}"
+                       th:errorclass="is-invalid"
+                       type="number" min="0" step="100" class="form-control"
                        placeholder="Suggested price"/>
-                <p class="errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-warning">
                     Suggested price is required.
                 </p>
             </div>
         </div>
-        <div class="row">
+        <div th:if="${updateOfferBindingModel.category.equals('CAMPER')}" class="row">
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="engine">Engine</label>
-                <select id="engine" class="form-control">
-                    <option value="">- Select engine type -</option>
-                    <option>
+                <select th:name="engine"
+                        th:errorclass="is-invalid"
+                        id="engine" class="form-control">
+                    <option th:value="${updateOfferBindingModel.engine}">- Select engine type -</option>
+                    <option
+                            th:each="e : ${engines}"
+                            th:text="${e}"
+                            th:value="${e}"
+                            th:selected="${e} == *{engine}">
                         Engine type
                     </option>
                 </select>
-                <p class="errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-warning">
                     Engine type is required.
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label class="text-center text-white font-weight-bold" for="transmission">Transmission</label>
-                <select id="transmission" class="form-control">
-                    <option value="">- Select transmission type -</option>
-                    <option> Transmission type
+                <select th:name="transmission"
+                        th:errorclass="is-invalid"
+                        id="transmission" class="form-control">
+                    <option th:value="${updateOfferBindingModel.transmission}">- Select transmission type -</option>
+                    <option
+                            th:each="t : ${transmissions}"
+                            th:text="${t}"
+                            th:value="${t}"
+                            th:selected="${t} == *{transmission}"> Transmission type
                     </option>
                 </select>
-                <p class="errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-warning">
                     Transmission type is required.
                 </p>
             </div>
@@ -66,38 +100,89 @@
         <div class="row">
             <div class="form-group col-md-6 mb-3">
                 <label for="year" class="text-white font-weight-bold">Year</label>
-                <input id="year" type="number" min="1900" max="2099" step="1" class="form-control"
+                <input th:value="${updateOfferBindingModel.year}"
+                       id="year"
+                       th:name="year"
+                       th:field="*{year}"
+                       th:errorclass="is-invalid"
+                       type="number" min="1900" max="2099" step="1" class="form-control"
                        placeholder="Manufacturing year"/>
-                <p class="errors alert alert-danger">
+                <p class="invalid-feedback errors alert alert-warning">
                     Manufacturing year is required.
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label for="mileage" class="text-white font-weight-bold">Mileage</label>
-                <input id="mileage" type="number" min="0" max="900000" step="1000"
+                <label class="text-white font-weight-bold" for="beds">Beds</label>
+                <input th:value="${updateOfferBindingModel.beds}"
+                       id="beds"
+                       th:name="beds"
+                       th:field="*{beds}"
+                       th:errorclass="is-invalid"
+                       type="number" min="1" max="15" step="1"
                        class="form-control"
-                       placeholder="Mileage in kilometers"/>
-                <p class="errors alert alert-danger">
-                    Mileage in kilometers is required.
+                       placeholder="Beds count">
+                <p class="invalid-feedback errors alert alert-warning">
+                    Beds count is required.
                 </p>
             </div>
         </div>
 
         <div class="form-group">
             <label class="text-white font-weight-bold" for="description">Description</label>
-            <textarea id="description" type="textarea" class="form-control" rows="3"
+            <textarea th:value="${updateOfferBindingModel.description}"
+                      id="description"
+                      th:name="description"
+                      th:field="*{description}"
+                      th:errorclass="is-invalid"
+                      type="textarea" class="form-control" rows="3"
                       placeholder="Description"></textarea>
-            <p class="errors alert alert-danger">
+            <p class="invalid-feedback errors alert alert-warning">
                 Description is required.
             </p>
         </div>
         <div class="form-group">
             <label class="text-white font-weight-bold" for="imageUrl">Image URL</label>
-            <input id="imageUrl" type="url" class="form-control"
+            <input th:value="${updateOfferBindingModel.imageUrl}"
+                   id="imageUrl"
+                   th:name="imageUrl"
+                   th:field="*{imageUrl}"
+                   th:errorclass="is-invalid"
+                   type="url" class="form-control"
                    placeholder="Put vehicle image URL here">
-            <p class="errors alert alert-danger">
+            <p class="invalid-feedback errors alert alert-warning">
                 Vehicle image URL is required.
             </p>
+        </div>
+
+        <div th:if="${updateOfferBindingModel.category.equals('CAMPER')}" class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="mileage" class="text-white font-weight-bold">Mileage</label>
+                <input th:value="${updateOfferBindingModel.mileage}"
+                       id="mileage"
+                       th:name="mileage"
+                       th:field="*{mileage}"
+                       th:errorclass="is-invalid"
+                       type="number" min="0" max="2000000" step="1000"
+                       class="form-control"
+                       placeholder="Mileage in kilometers"/>
+                <p class="invalid-feedback errors alert alert-warning">
+                    Mileage in kilometers is required.
+                </p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-white font-weight-bold" for="horsePower">Horsepower</label>
+                <input th:value="${updateOfferBindingModel.horsepower}"
+                       id="horsePower"
+                       th:name="horsepower"
+                       th:field="*{horsepower}"
+                       th:errorclass="is-invalid"
+                       type="number" min="50" max="1000" step="10"
+                       class="form-control"
+                       placeholder="Horsepower of vehicle">
+                <p class="invalid-feedback errors alert alert-warning">
+                    Horsepower of vehicle is required.
+                </p>
+            </div>
         </div>
 
         <div class="row">
@@ -111,7 +196,7 @@
 </div>
 
 <div>
-		<footer> </footer>
+    <footer></footer>
 </div>
 
 </body>

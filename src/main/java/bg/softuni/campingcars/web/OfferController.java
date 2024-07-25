@@ -2,6 +2,7 @@ package bg.softuni.campingcars.web;
 
 import bg.softuni.campingcars.model.dto.bindingModels.BrandDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
+import bg.softuni.campingcars.model.dto.bindingModels.UpdateOfferBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
 import bg.softuni.campingcars.model.enums.EngineEnum;
@@ -67,7 +68,7 @@ public class OfferController {
 
         UUID offerUUID = this.offerService.addCamperOffer(offerAddCamperBindingModel, seller);
 
-        return new ModelAndView("redirect:/offer/" + offerUUID);
+        return new ModelAndView("redirect:/offer/details/" + offerUUID);
     }
 
     @GetMapping("/add/caravan")
@@ -88,12 +89,12 @@ public class OfferController {
 
         UUID offerUUID = this.offerService.addCaravanOffer(offerAddCaravanBindingModel, seller);
 
-        return new ModelAndView("redirect:/offer/" + offerUUID);
+        return new ModelAndView("redirect:/offer/details/" + offerUUID);
     }
 
-    @GetMapping("/{uuid}")
+    @GetMapping("/details/{uuid}")
     public ModelAndView details(@PathVariable("uuid") UUID uuid,
-                          @AuthenticationPrincipal UserDetails viewer) {
+                                @AuthenticationPrincipal UserDetails viewer) {
 
         OfferSummaryDTO offerSummaryDTO = this.offerService.getOfferDetail(uuid, viewer)
                 .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
@@ -106,11 +107,41 @@ public class OfferController {
 
     @PreAuthorize("@offerServiceImpl.isOwner(#uuid, #principal.username)")
     @DeleteMapping("/{uuid}")
-    public String delete(@PathVariable("uuid") UUID uuid,
-                         @AuthenticationPrincipal UserDetails principal) {
+    public ModelAndView delete(@PathVariable("uuid") UUID uuid,
+                               @AuthenticationPrincipal UserDetails principal) {
 
         this.offerService.deleteOffer(uuid);
 
-        return "redirect:/offers/all";
+        return new ModelAndView("redirect:/offers/all");
+    }
+
+    @GetMapping("/update/{uuid}")
+    public ModelAndView update(@PathVariable("uuid") UUID uuid,
+                               @AuthenticationPrincipal UserDetails viewer) {
+
+        ModelAndView modelAndView = new ModelAndView("update");
+
+        UpdateOfferBindingModel updateOfferBindingModel = this.offerService.getOfferForUpdate(uuid, viewer);
+
+        modelAndView.addObject("updateOfferBindingModel", updateOfferBindingModel);
+
+        return modelAndView;
+    }
+
+    @PreAuthorize("@offerServiceImpl.isOwner(#uuid, #principal.username)")
+    @PutMapping("/update/{uuid}")
+    public ModelAndView update(@PathVariable("uuid") UUID uuid,
+                               @ModelAttribute("updateOfferBindingModel")
+                               @Valid UpdateOfferBindingModel updateOfferBindingModel,
+                               BindingResult bindingResult,
+                               @AuthenticationPrincipal UserDetails principal) {
+
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("redirect:/offer/update/" + uuid);
+        }
+
+        this.offerService.updateOffer(uuid, updateOfferBindingModel);
+
+        return new ModelAndView("redirect:/offer/details/" + uuid);
     }
 }
