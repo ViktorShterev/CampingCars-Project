@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/offer/**").permitAll()
                         .requestMatchers("/brand/add").hasRole(RoleEnum.ADMIN.name())
+                        .requestMatchers("/api/currency/convert").permitAll()
 //                        All other requests are authenticated
                         .anyRequest().authenticated()
 
