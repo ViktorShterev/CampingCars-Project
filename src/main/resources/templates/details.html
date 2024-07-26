@@ -26,10 +26,15 @@
                         <span>• Mileage</span>
                         <th:block th:text="${offer.mileage}"></th:block>
                     </div>
+
                     <div class="card-text">
-                        <span>• Price</span>
-                        <th:block th:text="${offer.price}"></th:block>
+                        <span id="price" th:text="'• Price ' + ${offer.price} + ' BGN'"></span>
+                        <form onsubmit="convertToUSD(event)">
+                            <input id="convertButton" type="submit" value="Convert to USD" class="link card-link"/>
+                        </form>
+                        <span id="convertedAmount"></span> <!-- Area to display converted amount -->
                     </div>
+
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
                         <span>• Engine type</span>
                         <th:block th:text="${offer.engine.name()}"></th:block>
@@ -74,4 +79,56 @@
 </div>
 
 </body>
+
+<script>
+    function convertToUSD(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        console.log("Convert button clicked"); // Debug log
+
+        // Extract the price value from the page
+        let priceText = document.getElementById('price').innerText;
+        console.log("Price text:", priceText); // Debug log
+
+        // Assuming the price is in the format "• Price 1000 BGN"
+        let priceParts = priceText.split(' ');
+        let price = parseFloat(priceParts[2]); // Convert the extracted price text to a number
+
+        if (isNaN(price)) {
+            console.error("Invalid price value");
+            document.getElementById('convertedAmount').innerText = 'Invalid price value';
+            return;
+        }
+
+        console.log("Price value:", price); // Debug log
+
+        let xhr = new XMLHttpRequest();
+        let targetCurrency = 'USD';
+        let url = `/api/currency/convert?amount=${price}&target=${targetCurrency}`;
+
+        console.log("Request URL:", url); // Debug log
+
+        xhr.open('GET', url, true);
+
+        xhr.onload = function() {
+            console.log("XHR Status:", xhr.status); // Debug log
+            if (xhr.status === 200) {
+                let response = JSON.parse(xhr.responseText);
+                let convertedAmount = response.convertedAmount; // Extract the converted amount from the response
+                console.log("Converted amount:", convertedAmount); // Debug log
+                document.getElementById('convertedAmount').innerText = ' - Converted Price in USD: $' + convertedAmount.toFixed(2);
+                document.getElementById('convertButton').style.display = 'none'; // Hide the convert button
+            } else {
+                console.error('Conversion failed');
+                document.getElementById('convertedAmount').innerText = 'Conversion failed';
+            }
+        };
+
+        xhr.onerror = function() {
+            console.error("Request error");
+        };
+
+        xhr.send();
+    }
+</script>
 </html>

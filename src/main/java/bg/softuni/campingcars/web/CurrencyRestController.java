@@ -9,10 +9,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,8 +43,19 @@ public class CurrencyRestController {
     @Parameter(name = "target", description = "The target currency", required = true)
     @Parameter(name = "amount", description = "The amount to be converted", required = true)
     @GetMapping("/api/currency/convert")
-    public MoneyDTO convert(@Valid ConvertRequestDTO convertRequestDTO) {
+    public ResponseEntity<Map<String, Object>> convertToUSD(
+            @RequestParam("target") String target,
+            @RequestParam("amount") double amount) {
 
-        return this.currencyService.convert(convertRequestDTO);
+        ConvertRequestDTO convertRequestDTO = new ConvertRequestDTO();
+        convertRequestDTO.setTarget(target);
+        convertRequestDTO.setAmount(amount);
+
+        MoneyDTO moneyDTO = this.currencyService.convert(convertRequestDTO);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("convertedAmount", moneyDTO.getAmount());
+
+        return ResponseEntity.ok(response);
     }
 }

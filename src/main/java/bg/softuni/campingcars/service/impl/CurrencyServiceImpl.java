@@ -61,12 +61,12 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     public MoneyDTO convert(ConvertRequestDTO convertRequestDTO) {
-        ExchangeRate exchangeRate = this.exchangeRateRepository.findById(convertRequestDTO.target())
+        ExchangeRate exchangeRate = this.exchangeRateRepository.findById(convertRequestDTO.getTarget())
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Conversion to target " + convertRequestDTO.target() + " not possible!"));
+                        new IllegalArgumentException("Conversion to target " + convertRequestDTO.getTarget() + " not possible!"));
 
-        return new MoneyDTO(convertRequestDTO.target(),
-                exchangeRate.getExchangeRate().multiply(convertRequestDTO.amount()));
+        return new MoneyDTO(convertRequestDTO.getTarget(),
+                exchangeRate.getExchangeRate().multiply(BigDecimal.valueOf(convertRequestDTO.getAmount())));
     }
 
     private static Optional<BigDecimal> getExchangeRate(ExchangeRateDTO exchangeRateDTO,
