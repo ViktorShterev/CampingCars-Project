@@ -1,9 +1,9 @@
-package bg.softuni.campingcars.service.web;
+package bg.softuni.campingcars.web;
 
 import bg.softuni.campingcars.model.entity.Offer;
 import bg.softuni.campingcars.model.entity.User;
-import bg.softuni.campingcars.service.testUtils.TestDataUtil;
-import bg.softuni.campingcars.service.testUtils.UserTestDataUtil;
+import bg.softuni.campingcars.testUtils.TestDataUtil;
+import bg.softuni.campingcars.testUtils.UserTestDataUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

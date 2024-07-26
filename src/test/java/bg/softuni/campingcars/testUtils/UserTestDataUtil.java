@@ -1,4 +1,4 @@
-package bg.softuni.campingcars.service.testUtils;
+package bg.softuni.campingcars.testUtils;
 
 import bg.softuni.campingcars.model.entity.Role;
 import bg.softuni.campingcars.model.entity.User;

@@ -1,4 +1,4 @@
-package bg.softuni.campingcars.service.web;
+package bg.softuni.campingcars.web;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;

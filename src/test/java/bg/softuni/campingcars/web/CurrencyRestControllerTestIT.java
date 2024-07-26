@@ -1,6 +1,6 @@
-package bg.softuni.campingcars.service.web;
+package bg.softuni.campingcars.web;
 
-import bg.softuni.campingcars.service.testUtils.TestDataUtil;
+import bg.softuni.campingcars.testUtils.TestDataUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
