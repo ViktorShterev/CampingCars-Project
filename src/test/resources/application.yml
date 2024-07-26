@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:hsqldb:mem:testdb;sql.syntax_mys=true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+
+
+
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+open.exchange.rates:
+  schema: https
+  host: dummy
+  path: /api/latest.json
+  app_id: test
+  symbols: BGN
+  enabled: false
+
+mail:
+  mobilele: mobilele@example.com
+  host: localhost
+  port: 3333
+  username: test
+  password: test
+
+#        https://openexchangerates:
+#            org/api/latest:
+#                json?app_id=fd1ebb20a97442d0aa22e960f25441a5&symbols=EUR,BGN:
