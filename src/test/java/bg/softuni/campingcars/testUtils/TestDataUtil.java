@@ -50,9 +50,10 @@ public class TestDataUtil {
                 .setTransmission(TransmissionEnum.MANUAL)
                 .setMileage(100000L)
                 .setSeller(owner)
-                .setUuid(UUID.randomUUID())
+                .setUuid(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"))
                 .setCreated(LocalDateTime.now())
-                .setCategory(brand.getModels().stream().findFirst().get().getCategory());
+                .setCategory(brand.getModels().stream().findFirst().get().getCategory())
+                .setHorsePower(200);
 
         this.offerRepository.save(offer);
 

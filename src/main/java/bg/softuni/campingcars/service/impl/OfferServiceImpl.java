@@ -13,6 +13,7 @@ import bg.softuni.campingcars.repository.ModelRepository;
 import bg.softuni.campingcars.repository.OfferRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.OfferService;
+import bg.softuni.campingcars.service.util.UuidGeneratorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -34,6 +35,7 @@ public class OfferServiceImpl implements OfferService {
     private final ModelRepository modelRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final UuidGeneratorService uuidGeneratorService;
 
     @Override
     public UUID addCamperOffer(OfferAddCamperBindingModel offerAddCamperBindingModel, UserDetails seller) {
@@ -54,8 +56,11 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     @Transactional
-    public void deleteOffer(UUID uuid) {
-        this.offerRepository.deleteByUuid(uuid);
+    public void deleteOffer(UUID uuid, UserDetails principal) {
+
+        if (isOwner(uuid, principal.getUsername())) {
+            this.offerRepository.deleteByUuid(uuid);
+        }
     }
 
     @Override
@@ -73,29 +78,37 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel) {
-        updatingOffer(uuid, updateOfferBindingModel);
+    public void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel, UserDetails principal) {
+
+        if (isOwner(uuid, principal.getUsername())) {
+            updatingOffer(uuid, updateOfferBindingModel);
+        }
     }
 
     @Override
     public UpdateOfferBindingModel getOfferForUpdate(UUID uuid, UserDetails viewer) {
-        OfferSummaryDTO offerSummaryDTO = getOfferDetail(uuid, viewer)
-                .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
 
-        return new UpdateOfferBindingModel(
-                offerSummaryDTO.uuid(),
-                offerSummaryDTO.category(),
-                offerSummaryDTO.model(),
-                offerSummaryDTO.description(),
-                offerSummaryDTO.year(),
-                offerSummaryDTO.beds(),
-                offerSummaryDTO.mileage(),
-                offerSummaryDTO.horsepower(),
-                offerSummaryDTO.imageUrl(),
-                offerSummaryDTO.price(),
-                offerSummaryDTO.engine(),
-                offerSummaryDTO.transmission()
-        );
+        if (isOwner(uuid, viewer.getUsername())) {
+
+            OfferSummaryDTO offerSummaryDTO = getOfferDetail(uuid, viewer)
+                    .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
+
+            return new UpdateOfferBindingModel(
+                    offerSummaryDTO.uuid(),
+                    offerSummaryDTO.category(),
+                    offerSummaryDTO.model(),
+                    offerSummaryDTO.description(),
+                    offerSummaryDTO.year(),
+                    offerSummaryDTO.beds(),
+                    offerSummaryDTO.mileage(),
+                    offerSummaryDTO.horsepower(),
+                    offerSummaryDTO.imageUrl(),
+                    offerSummaryDTO.price(),
+                    offerSummaryDTO.engine(),
+                    offerSummaryDTO.transmission()
+            );
+        }
+        return null;
     }
 
     private void updatingOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel) {
@@ -214,7 +227,7 @@ public class OfferServiceImpl implements OfferService {
             offer.setSeller(user);
             offer.setCategory(categoryEntity);
             offer.setCreated(LocalDateTime.now());
-            offer.setUuid(UUID.randomUUID());
+            offer.setUuid(this.uuidGeneratorService.generateUuid());
 
             this.offerRepository.save(offer);
 

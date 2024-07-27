@@ -30,12 +30,12 @@ open.exchange.rates:
   symbols: BGN
   enabled: false
 
-mail:
-  mobilele: mobilele@example.com
-  host: localhost
-  port: 3333
-  username: test
-  password: test
+#mail:
+#  mobilele: mobilele@example.com
+#  host: localhost
+#  port: 3333
+#  username: test
+#  password: test
 
 #        https://openexchangerates:
 #            org/api/latest:

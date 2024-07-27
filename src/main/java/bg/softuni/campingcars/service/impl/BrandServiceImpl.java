@@ -73,14 +73,13 @@ public class BrandServiceImpl implements BrandService {
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
         Model model = new Model()
-                .setBrand(brand)
                 .setName(brandModelAddBindingModel.model())
                 .setCategory(category);
 
-        this.modelRepository.save(model);
-
         brand.getModels().add(model);
-
         this.brandRepository.save(brand);
+
+        model.setBrand(brand);
+        this.modelRepository.save(model);
     }
 }

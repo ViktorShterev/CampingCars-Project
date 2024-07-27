@@ -1,5 +1,8 @@
 package bg.softuni.campingcars.web;
 
+import bg.softuni.campingcars.model.entity.Brand;
+import bg.softuni.campingcars.model.enums.CategoryEnum;
+import bg.softuni.campingcars.repository.BrandRepository;
 import bg.softuni.campingcars.testUtils.TestDataUtil;
 import bg.softuni.campingcars.testUtils.UserTestDataUtil;
 import org.junit.jupiter.api.AfterEach;
@@ -10,12 +13,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,16 +37,21 @@ class BrandControllerTestIT {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private BrandRepository brandRepository;
+
     @BeforeEach
     public void setUp() {
         this.testDataUtil.cleanUp();
         this.userTestDataUtil.cleanUp();
+        this.brandRepository.deleteAll();
     }
 
     @AfterEach
     public void tearDown() {
         this.testDataUtil.cleanUp();
         this.userTestDataUtil.cleanUp();
+        this.brandRepository.deleteAll();
     }
 
     @Test
@@ -91,9 +100,23 @@ class BrandControllerTestIT {
             roles = {"USER", "ADMIN"})
     void testAdminCanAddBrand() throws Exception {
 
+        this.testDataUtil.creatingTestBrand();
+
+        this.userTestDataUtil.createTestAdmin(TEST_ADMIN_EMAIL);
+
         mockMvc.perform(
-                post("/brand/add")
-                        .with(csrf())
-        ).andExpect(status().isOk());
+                        MockMvcRequestBuilders.post("/brand/add")
+                                .param("brand", "TestBrand")
+                                .param("model", "TestModel")
+                                .param("category", String.valueOf(CategoryEnum.CAMPER))
+                                .with(csrf())
+
+                ).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlTemplate("/"));
+
+        Brand brand = this.brandRepository.findByName("TestBrand").get();
+
+        assertEquals("TestModel", brand.getModels().stream().findFirst().get().getName());
+        assertEquals("CAMPER", brand.getModels().stream().findFirst().get().getCategory().getCategory().name());
     }
 }

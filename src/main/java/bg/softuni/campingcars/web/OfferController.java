@@ -110,11 +110,12 @@ public class OfferController {
     public ModelAndView delete(@PathVariable("uuid") UUID uuid,
                                @AuthenticationPrincipal UserDetails principal) {
 
-        this.offerService.deleteOffer(uuid);
+        this.offerService.deleteOffer(uuid, principal);
 
         return new ModelAndView("redirect:/offers/all");
     }
 
+    @PreAuthorize("@offerServiceImpl.isOwner(#uuid, #viewer.username)")
     @GetMapping("/update/{uuid}")
     public ModelAndView update(@PathVariable("uuid") UUID uuid,
                                @AuthenticationPrincipal UserDetails viewer) {
@@ -123,9 +124,13 @@ public class OfferController {
 
         UpdateOfferBindingModel updateOfferBindingModel = this.offerService.getOfferForUpdate(uuid, viewer);
 
-        modelAndView.addObject("updateOfferBindingModel", updateOfferBindingModel);
+        if (updateOfferBindingModel != null) {
+            modelAndView.addObject("updateOfferBindingModel", updateOfferBindingModel);
 
-        return modelAndView;
+            return modelAndView;
+        }
+
+        return new ModelAndView("redirect:/offer/details/" + uuid);
     }
 
     @PreAuthorize("@offerServiceImpl.isOwner(#uuid, #principal.username)")
@@ -140,7 +145,7 @@ public class OfferController {
             return new ModelAndView("redirect:/offer/update/" + uuid);
         }
 
-        this.offerService.updateOffer(uuid, updateOfferBindingModel);
+        this.offerService.updateOffer(uuid, updateOfferBindingModel, principal);
 
         return new ModelAndView("redirect:/offer/details/" + uuid);
     }

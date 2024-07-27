@@ -20,13 +20,13 @@ public interface OfferService {
 
     Optional<OfferSummaryDTO> getOfferDetail(UUID uuid, UserDetails viewer);
 
-    void deleteOffer(UUID uuid);
+    void deleteOffer(UUID uuid, UserDetails principal);
 
     boolean isOwner(UUID uuid, String username);
 
     Page<OfferViewModel> findAllOffers(Pageable pageable);
 
-    void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel);
+    void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel, UserDetails principal);
 
     UpdateOfferBindingModel getOfferForUpdate(UUID uuid, UserDetails viewer);
 }
