@@ -87,7 +87,8 @@ public class OfferControllerTestIT {
         mockMvc.perform(
                 delete("/offer/{uuid}", offer.getUuid())
                         .with(csrf())
-        ).andExpect(status().isForbidden());
+        ).andExpect(status().isFound())
+                .andExpect(redirectedUrlTemplate("/offers/all"));
     }
 
     @Test

@@ -36,6 +36,7 @@ public class UserTestDataUtil {
         User user = new User()
                 .setActive(true)
                 .setEmail(email)
+                .setAge(25)
                 .setPassword("topsecret")
                 .setCreated(LocalDateTime.now())
                 .setFirstName("Test First Name")

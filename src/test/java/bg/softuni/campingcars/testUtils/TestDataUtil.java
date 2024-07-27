@@ -38,19 +38,7 @@ public class TestDataUtil {
 
     public Offer createTestOffer(User owner) {
 
-        Category category = this.categoryRepository.findByCategory(CategoryEnum.CAMPER).get();
-
-        Model model = new Model()
-                .setName("Test Model")
-                .setCategory(category);
-
-        this.modelRepository.save(model);
-
-        Brand brand = new Brand()
-                .setName("Test Brand")
-                .setModels(Set.of(model));
-
-        this.brandRepository.save(brand);
+        Brand brand = creatingTestBrand();
 
         Offer offer = new Offer()
                 .setModel(brand.getModels().stream().findFirst().get())
@@ -63,17 +51,37 @@ public class TestDataUtil {
                 .setMileage(100000L)
                 .setSeller(owner)
                 .setUuid(UUID.randomUUID())
-                .setCreated(LocalDateTime.now());
+                .setCreated(LocalDateTime.now())
+                .setCategory(brand.getModels().stream().findFirst().get().getCategory());
 
         this.offerRepository.save(offer);
 
         return offer;
     }
 
+    public Brand creatingTestBrand() {
+        Category category = this.categoryRepository.findByCategory(CategoryEnum.CAMPER).get();
+
+        Model model = new Model()
+                .setName("Test Model")
+                .setCategory(category);
+
+        Brand brand = new Brand()
+                .setName("Test Brand")
+                .setModels(Set.of(model));
+
+        this.brandRepository.save(brand);
+
+        model.setBrand(brand);
+        this.modelRepository.save(model);
+
+        return brand;
+    }
+
     public void cleanUp() {
         this.exchangeRateRepository.deleteAll();
         this.offerRepository.deleteAll();
-        this.brandRepository.deleteAll();
         this.modelRepository.deleteAll();
+        this.brandRepository.deleteAll();
     }
 }
