@@ -3,66 +3,102 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+    <style>
+        .navbar .language-form label {
+            color: #aca3a3;
+        }
+
+        .navbar .language-form select,
+        .navbar .language-form option {
+            color: #d89722;
+            background: transparent;
+        }
+
+        .navbar .language-form select {
+            border: none;
+        }
+
+        .navbar .language-form option {
+            background-color: #343a40; /* Dark background for dropdown options */
+        }
+
+        .navbar .language-form select:focus {
+            box-shadow: none; /* Remove default focus shadow */
+            border-color: #aca3a3;
+        }
+    </style>
 </head>
 
 <body>
 
-    <nav th:fragment="navbar"
-            class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-        <a class="navbar-brand" href="/"><img alt="car picture" src="/images/Camping.png" class="logo"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<nav th:fragment="navbar"
+     class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+    <a class="navbar-brand" href="/"><img alt="car picture" src="/images/Camping.png" class="logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto col-12 justify-content-between">
-                <li class="nav-item"
-                >
-                    <a class="nav-link" th:href="@{/brand/all}">All Brands</a>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" th:href="@{/offer/category}">Add Offer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/offers/all}">All Offers</a>
-                </li>
-                <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Admin
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" th:href="@{/brand/add}">Add Brand/Model</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/">Something else here</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto col-12 justify-content-between">
+            <li class="nav-item"
+            >
+                <a class="nav-link" th:href="@{/brand/all}" th:text="#{nav_bar_all_brands}">All Brands</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link" th:href="@{/offer/category}" th:text="#{nav_bar_add_offers}">Add Offer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/offers/all}" th:text="#{nav_bar_all_offers}">All Offers</a>
+            </li>
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{nav_bar_admin}">
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/brand/add}" th:text="#{nav_bar_add_brand_model}">Add Brand/Model</a>
+<!--                    <div class="dropdown-divider"></div>-->
+<!--                    <a class="dropdown-item" href="/">Something else here</a>-->
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/about}" th:text="#{nav_bar_about}">About us</a>
+            </li>
+
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <div class="form-inline my-2 my-lg-0 border px-3">
+                    <div class="logged-user" >
+                        Welcome,
+                        <th:block sec:authentication="name"></th:block>!
                     </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/about}">About us</a>
-                </li>
+                    <form th:method="post" th:action="@{/users/logout}">
+                        <input type="submit" class="btn btn-link" th:value="#{nav_bar_logout}">
+                    </form>
+                </div>
+            </li>
 
-                <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <div class="form-inline my-2 my-lg-0 border px-3">
-                        <div class="logged-user">
-                            Welcome, <th:block sec:authentication="name"></th:block>!
-                        </div>
-                        <form th:method="post" th:action="@{/users/logout}">
-                            <input type="submit" class="btn btn-link" value="Logout">
-                            </form>
-                    </div>
-                </li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item">
+                <a class="nav-link" th:href="@{/users/register}" th:text="#{nav_bar_register}">Register</a>
+            </li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item">
+                <a class="nav-link" th:href="@{/users/login}" th:text="#{nav_bar_login}">Login</a>
+            </li>
 
-                <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a class="nav-link" th:href="@{/users/register}">Register</a>
-                </li>
-                <li sec:authorize="!isAuthenticated()" class="nav-item">
-                    <a class="nav-link" th:href="@{/users/login}">Login</a>
-                </li>
-
-            </ul>
-        </div>
-    </nav>
+            <li class="nav-item language-form">
+                <form th:method="get" class="form-inline my-2 my-lg-0">
+                    <label class="mr-2" for="lang" th:text="#{nav_bar_language}">Language</label>
+                    <select name="lang"
+                            id="lang"
+                            onchange="this.form.submit()">
+                        <option value="en_US" th:selected="${#locale.toString() == 'en_US'}">English</option>
+                        <option value="bg_BG" th:selected="${#locale.toString() == 'bg_BG'}">Български</option>
+                    </select>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 </body>
 </html>
