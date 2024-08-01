@@ -7,15 +7,15 @@ import jakarta.validation.constraints.Size;
 
 public record BrandModelAddBindingModel(
 
-        @NotEmpty(message = "Brand must not be empty!")
-        @Size(min = 2, max = 30, message = "")
+        @NotEmpty(message = "")
+        @Size(min = 2, max = 30, message = "{add.brand.length}")
         String brand,
 
-        @NotEmpty(message = "Model must not be empty!")
-        @Size(min = 2, max = 50, message = "")
+        @NotEmpty(message = "")
+        @Size(min = 2, max = 50, message = "{add.brand.model.length}")
         String model,
 
-        @NotNull(message = "You must choose a category!")
+        @NotNull(message = "{add.brand.category.length}")
         CategoryEnum category
 ) {
 }

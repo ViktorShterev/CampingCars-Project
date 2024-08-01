@@ -15,12 +15,12 @@
 
 <div class="container-fluid">
     <br>
-    <h5 class="text-center" style="color: black">Opps, the thingy that you are looking for is no longer here!</h5>
-    <h5 class="text-center" style="color: black">We are veeery sorry.</h5>
+    <h5 class="text-center" style="color: black" th:text="#{error404_text1}">Opps, the thingy that you are looking for is no longer here!</h5>
+    <h5 class="text-center" style="color: black" th:text="#{error404_text2}">We are veeery sorry.</h5>
     <br/>
     <form th:method="get"
             th:action="@{/}">
-        <input type="submit" style="color: black; margin-left: 40%; background: transparent; cursor: pointer" value="Go home..."></input>
+        <input type="submit" style="color: black; margin-left: 40%; background: transparent; cursor: pointer" th:value="#{go_home_button}"></input>
     </form>
 </div>
 

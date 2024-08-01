@@ -19,10 +19,10 @@
 </div>
 
 <div class="container">
-    <h2 class="text-center text-white mb-4">All Offers</h2>
+    <h2 class="text-center text-white mb-4" th:text="#{nav_bar_all_offers}">All Offers</h2>
     <div class="mb-4">
-        <button class="btn btn-outline-primary filter-button" id="camperButton" data-filter="CAMPER" onclick="filterOffers('CAMPER')">Camper</button>
-        <button class="btn btn-outline-primary filter-button" id="caravanButton" data-filter="CARAVAN" onclick="filterOffers('CARAVAN')">Caravan</button>
+        <button class="btn btn-outline-primary filter-button" id="camperButton" data-filter="CAMPER" onclick="filterOffers('CAMPER')" th:text="#{category_camper}">Camper</button>
+        <button class="btn btn-outline-primary filter-button" id="caravanButton" data-filter="CARAVAN" onclick="filterOffers('CARAVAN')" th:text="#{category_caravan}">Caravan</button>
     </div>
     <div class="row" id="offersContainer">
         <div th:each="offer : ${offers}" class="col-md-4 mb-4 offer-card" th:data-category="${offer.category}">
@@ -33,7 +33,7 @@
                     <h6 class="card-title" th:text="${offer.model}"></h6>
                     <p class="card-text" th:text="${offer.year}"></p>
                     <p class="card-text" th:text="${offer.price}"></p>
-                    <a th:href="@{/offer/details/{uuid}(uuid=${offer.uuid})}" class="btn btn-info" style="background-color: #007bff">View Details</a>
+                    <a th:href="@{/offer/details/{uuid}(uuid=${offer.uuid})}" class="btn btn-info" style="background-color: #007bff" th:text="#{offers_view_details}">View Details</a>
                 </div>
             </div>
         </div>
@@ -58,21 +58,21 @@
             <!-- Previous page logic start -->
             <li class="page-item" th:classappend="${offers.isFirst() ? 'disabled' : ''}">
                 <a th:if="${offers.isFirst()}" class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                Previous</a>
+                    <span th:text="'&laquo; ' + #{page_previous}" aria-hidden="true">&laquo;</span>
+                </a>
                 <a th:unless="${offers.isFirst()}" class="page-link" th:href="@{/offers/all(size=${offers.getSize()}, page=${offers.getNumber() - 1})}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                Previous</a>
+                    <span th:text="'&laquo; ' + #{page_previous}" aria-hidden="true">&laquo;</span>
+                </a>
             </li>
             <!-- EO: Previous page logic end -->
 
             <!-- Next page logic start -->
             <li class="page-item" th:classappend="${offers.isLast() ? 'disabled' : ''}">
                 <a th:if="${offers.isLast()}" class="page-link" href="#" aria-label="Next">
-                    Next <span aria-hidden="true">&raquo;</span>
+                    <span th:text="#{page_next} + ' &raquo;'" aria-hidden="true">&raquo;</span>
                 </a>
                 <a th:unless="${offers.isLast()}" class="page-link" th:href="@{/offers/all(size=${offers.getSize()}, page=${offers.getNumber() + 1})}" aria-label="Next">
-                    Next <span aria-hidden="true">&raquo;</span>
+                    <span th:text="#{page_next} + ' &raquo;'" aria-hidden="true">&raquo;</span>
                 </a>
             </li>
             <!-- EO: Next page logic end -->

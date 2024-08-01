@@ -14,14 +14,14 @@
 
 <div class="container-fluid">
     <div sec:authorize="isAuthenticated()">
-        <h3 class="text-center text-white mt-5">
+        <h3 class="text-center text-white mt-5" th:text="#{welcome_page} + ', ' + ${#authentication.getName()} + '!'">
            We are happy to see you, <th:block sec:authentication="name"></th:block>
         </h3>
     </div>
     <div sec:authorize="!isAuthenticated()">
         <h3 class="text-center text-white mt-5"
-            th:text="'Welcome to Camping Cars!'">Welcome to Camping Cars!</h3>
-        <h5 class="text-center text-white mt-5">The biggest campers and caravans market!</h5>
+            th:text="#{welcome_page_unauthorized}">Welcome to Camping Cars!</h3>
+        <h5 class="text-center text-white mt-5" th:text="#{welcome_page_unauthorized2}">The biggest campers and caravans market!</h5>
     </div>
 
 </div>

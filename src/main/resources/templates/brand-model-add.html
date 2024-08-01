@@ -11,7 +11,7 @@
 </div>
 
 <div class="container">
-    <h2 class="text-center text-white">Add Brand/Model</h2>
+    <h2 class="text-center text-white" th:text="#{nav_bar_add_brand_model}">Add Brand/Model</h2>
     <form th:method="POST"
           th:action="@{/brand/add}"
           th:object="${brandModelAddBindingModel}"
@@ -19,11 +19,11 @@
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
-                <label for="brand" class="text-white font-weight-bold">Brand</label>
+                <label for="brand" class="text-white font-weight-bold" th:text="#{add_brand}">Brand</label>
                 <input th:field="*{brand}"
                        th:errorclass="bg-warning"
                        id="brand" type="text" min="2" max="30" class="form-control"
-                       placeholder="Brand"/>
+                       th:placeholder="#{add_brand}"/>
                 <p th:if="${#fields.hasErrors('brand')}"
                    th:errors="*{brand}"
                    class="errors alert alert-danger">
@@ -31,11 +31,11 @@
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label for="model" class="text-white font-weight-bold">Model</label>
+                <label for="model" class="text-white font-weight-bold" th:text="#{offer_model}">Model</label>
                 <input th:field="*{model}"
                        th:errorclass="bg-warning"
                        id="model" type="text" min="2" max="50" class="form-control"
-                       placeholder="Model"/>
+                       th:placeholder="#{offer_model}"/>
                 <p th:if="${#fields.hasErrors('model')}"
                    th:errors="*{model}"
                    class="errors alert alert-danger">
@@ -43,7 +43,7 @@
                 </p>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <label class="text-center text-white font-weight-bold" for="category">Category</label>
+                <label class="text-center text-white font-weight-bold" for="category" th:text="#{model_category}">Category</label>
                 <select id="category"
                         th:field="*{category}"
                         th:errorclass="bg-warning"
@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Add"/>
+                    <input type="submit" class="btn btn-info btn-lg" th:value="#{brand_add}"/>
                 </div>
             </div>
         </div>
