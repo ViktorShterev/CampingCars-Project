@@ -4,15 +4,19 @@ import bg.softuni.campingcars.model.dto.bindingModels.UserRegistrationBindingMod
 import bg.softuni.campingcars.model.entity.Role;
 import bg.softuni.campingcars.model.entity.User;
 import bg.softuni.campingcars.model.enums.RoleEnum;
+import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 import bg.softuni.campingcars.repository.RoleRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -51,5 +55,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Optional<CampingCarsUserDetails> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null &&
+                authentication.getPrincipal() instanceof CampingCarsUserDetails campingCarsUserDetails) {
+            return Optional.of(campingCarsUserDetails);
+        }
+        return Optional.empty();
     }
 }

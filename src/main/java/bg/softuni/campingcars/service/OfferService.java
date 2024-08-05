@@ -4,9 +4,6 @@ import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.UpdateOfferBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
-import bg.softuni.campingcars.model.dto.views.OfferViewModel;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
@@ -23,8 +20,6 @@ public interface OfferService {
     void deleteOffer(UUID uuid, UserDetails principal);
 
     boolean isOwner(UUID uuid, String username);
-
-    Page<OfferViewModel> findAllOffers(Pageable pageable);
 
     void updateOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel, UserDetails principal);
 

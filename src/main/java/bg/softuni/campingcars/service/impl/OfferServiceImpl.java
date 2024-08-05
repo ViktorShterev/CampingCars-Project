@@ -4,7 +4,6 @@ import bg.softuni.campingcars.model.dto.bindingModels.OfferSummaryDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.UpdateOfferBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCamperBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.offers.OfferAddCaravanBindingModel;
-import bg.softuni.campingcars.model.dto.views.OfferViewModel;
 import bg.softuni.campingcars.model.entity.*;
 import bg.softuni.campingcars.model.enums.CategoryEnum;
 import bg.softuni.campingcars.model.enums.RoleEnum;
@@ -17,8 +16,6 @@ import bg.softuni.campingcars.service.util.UuidGeneratorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -69,12 +66,6 @@ public class OfferServiceImpl implements OfferService {
                 .orElse(null);
 
         return isOwner(offer, username);
-    }
-
-    @Override
-    public Page<OfferViewModel> findAllOffers(Pageable pageable) {
-        return this.offerRepository.findAll(pageable)
-                .map(this::mapped);
     }
 
     @Override
@@ -136,18 +127,6 @@ public class OfferServiceImpl implements OfferService {
         }
 
         this.offerRepository.save(offer);
-    }
-
-    private OfferViewModel mapped(Offer offer) {
-        return new OfferViewModel(
-                offer.getUuid().toString(),
-                offer.getModel().getBrand().getName(),
-                offer.getModel().getName(),
-                offer.getCategory().getCategory().name(),
-                offer.getYear(),
-                offer.getPrice(),
-                offer.getImageUrl()
-        );
     }
 
     private OfferSummaryDTO mapAsSummary(Offer offer, UserDetails viewer) {
