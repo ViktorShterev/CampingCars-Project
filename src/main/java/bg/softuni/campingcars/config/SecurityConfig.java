@@ -29,7 +29,7 @@ public class SecurityConfig {
 //                        Allow anyone to see the home, login and register form and page
                         .requestMatchers("/", "/about", "/users/login", "/users/register", "/users/login-error").permitAll()
                         .requestMatchers("/offers/all").permitAll()
-                        .requestMatchers("/brand/all").permitAll()
+                        .requestMatchers("/brands/all").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/offer/category", "offer/details/**", "offer/add/camper", "offer/add/caravan").permitAll()
                         .requestMatchers("/brand/add").hasRole(RoleEnum.ADMIN.name())

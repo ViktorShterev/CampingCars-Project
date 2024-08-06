@@ -4,13 +4,15 @@ import bg.softuni.campingcars.model.entity.*;
 import bg.softuni.campingcars.model.enums.CategoryEnum;
 import bg.softuni.campingcars.model.enums.EngineEnum;
 import bg.softuni.campingcars.model.enums.TransmissionEnum;
-import bg.softuni.campingcars.repository.*;
+import bg.softuni.campingcars.repository.CategoryRepository;
+import bg.softuni.campingcars.repository.ExchangeRateRepository;
+import bg.softuni.campingcars.repository.ModelRepository;
+import bg.softuni.campingcars.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Component
@@ -21,9 +23,6 @@ public class TestDataUtil {
 
     @Autowired
     private OfferRepository offerRepository;
-
-    @Autowired
-    private BrandRepository brandRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -38,10 +37,10 @@ public class TestDataUtil {
 
     public Offer createTestOffer(User owner) {
 
-        Brand brand = creatingTestBrand();
+        Model model = creatingTestModel();
 
         Offer offer = new Offer()
-                .setModel(brand.getModels().stream().findFirst().get())
+                .setModel(model)
                 .setImageUrl("https://google.com")
                 .setPrice(BigDecimal.valueOf(1000))
                 .setYear(2010)
@@ -52,7 +51,7 @@ public class TestDataUtil {
                 .setSeller(owner)
                 .setUuid(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"))
                 .setCreated(LocalDateTime.now())
-                .setCategory(brand.getModels().stream().findFirst().get().getCategory())
+                .setCategory(model.getCategory())
                 .setHorsePower(200);
 
         this.offerRepository.save(offer);
@@ -60,29 +59,23 @@ public class TestDataUtil {
         return offer;
     }
 
-    public Brand creatingTestBrand() {
+    public Model creatingTestModel() {
         Category category = this.categoryRepository.findByCategory(CategoryEnum.CAMPER).get();
 
         Model model = new Model()
                 .setName("Test Model")
-                .setCategory(category);
+                .setCategory(category)
+                .setBrandName("Test Brand");
 
-        Brand brand = new Brand()
-                .setName("Test Brand")
-                .setModels(Set.of(model));
 
-        this.brandRepository.save(brand);
-
-        model.setBrand(brand);
         this.modelRepository.save(model);
 
-        return brand;
+        return model;
     }
 
     public void cleanUp() {
         this.exchangeRateRepository.deleteAll();
         this.offerRepository.deleteAll();
         this.modelRepository.deleteAll();
-        this.brandRepository.deleteAll();
     }
 }

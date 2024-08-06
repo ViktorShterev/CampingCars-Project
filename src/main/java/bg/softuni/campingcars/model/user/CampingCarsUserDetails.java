@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.UUID;
 
 @Getter
-@Setter
 public class CampingCarsUserDetails extends User {
 
     private final UUID uuid;

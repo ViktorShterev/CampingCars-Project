@@ -132,7 +132,7 @@ public class OfferServiceImpl implements OfferService {
     private OfferSummaryDTO mapAsSummary(Offer offer, UserDetails viewer) {
         return new OfferSummaryDTO(
                 offer.getUuid().toString(),
-                offer.getModel().getBrand().getName(),
+                offer.getModel().getBrandName(),
                 offer.getModel().getName(),
                 offer.getDescription(),
                 offer.getCategory().getCategory().name(),

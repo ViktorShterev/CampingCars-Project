@@ -1,6 +1,8 @@
 package bg.softuni.campingcars.service.impl;
 
 import bg.softuni.campingcars.model.entity.Role;
+import bg.softuni.campingcars.model.enums.RoleEnum;
+import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 import bg.softuni.campingcars.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,14 +27,17 @@ public class CampingCarsUserDetailsServiceImpl implements UserDetailsService {
     }
 
     private static UserDetails map(bg.softuni.campingcars.model.entity.User user) {
-         return User
-                .withUsername(user.getEmail())
-                .password(user.getPassword())
-                .authorities(user.getRoles().stream().map(CampingCarsUserDetailsServiceImpl::mapped).toList())
-                .build();
+        return new CampingCarsUserDetails(
+                user.getUuid(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getRoles().stream().map(Role::getRole).map(CampingCarsUserDetailsServiceImpl::mapped).toList(),
+                user.getFirstName(),
+                user.getLastName()
+        );
     }
 
-    private static GrantedAuthority mapped(Role role) {
-        return new SimpleGrantedAuthority("ROLE_" + role.getRole().name());
+    private static GrantedAuthority mapped(RoleEnum role) {
+        return new SimpleGrantedAuthority("ROLE_" + role);
     }
 }

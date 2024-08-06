@@ -2,15 +2,21 @@ package bg.softuni.campingcars.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.JdbcTypeCode;
 
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 @Getter
 public class User extends BaseEntity {
+
+    @JdbcTypeCode(Types.VARCHAR)
+    private UUID uuid;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -38,6 +44,11 @@ public class User extends BaseEntity {
 
     public User() {
         this.roles = new HashSet<>();
+    }
+
+    public User setUuid(UUID uuid) {
+        this.uuid = uuid;
+        return this;
     }
 
     public User setEmail(String email) {

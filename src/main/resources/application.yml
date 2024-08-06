@@ -55,8 +55,8 @@ brand:
         baseUrl: "${BRAND_BASE_URL:http://localhost:8081}"
 
 jwt:
-    secret: ${JWT_KEY:WSdv1kEE1tCT1a8ihRSqfwMNzlPBq8IWSdv1kEE1tCT1a8ihRSqfwMNzlPBq8IWSdv1kEE1tCT1a8ihRSqfwMNzlPBq8I}
-    expiration: ${JWT_EXPIRATION:60000}
+    secret: ${JWT_KEY:}
+    expiration: ${JWT_EXPIRATION:}
 
 #mail:
 #    mobilele: mobilele@example.com

@@ -24,7 +24,7 @@ public class OffersServiceImpl implements OffersService {
     private OfferViewModel mapped(Offer offer) {
         return new OfferViewModel(
                 offer.getUuid().toString(),
-                offer.getModel().getBrand().getName(),
+                offer.getModel().getBrandName(),
                 offer.getModel().getName(),
                 offer.getCategory().getCategory().name(),
                 offer.getYear(),

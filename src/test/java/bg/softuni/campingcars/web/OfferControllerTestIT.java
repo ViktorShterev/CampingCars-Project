@@ -151,7 +151,7 @@ public class OfferControllerTestIT {
         UUID fixedUuid = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(uuidGeneratorService.generateUuid()).thenReturn(fixedUuid);
 
-        this.testDataUtil.creatingTestBrand();
+        this.testDataUtil.creatingTestModel();
 
         this.userTestDataUtil.createTestAdmin(TEST_ADMIN_EMAIL);
 
@@ -206,7 +206,7 @@ public class OfferControllerTestIT {
         UUID fixedUuid = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         when(uuidGeneratorService.generateUuid()).thenReturn(fixedUuid);
 
-        this.testDataUtil.creatingTestBrand();
+        this.testDataUtil.creatingTestModel();
 
         this.userTestDataUtil.createTestAdmin(TEST_ADMIN_EMAIL);
 

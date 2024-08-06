@@ -11,19 +11,20 @@ public class Model extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, name = "brand_name")
+    private String brandName;
+
     @ManyToOne
     private Category category;
 
-    @ManyToOne
-    private Brand brand;
 
     public Model setName(String name) {
         this.name = name;
         return this;
     }
 
-    public Model setBrand(Brand brand) {
-        this.brand = brand;
+    public Model setBrandName(String brandName) {
+        this.brandName = brandName;
         return this;
     }
 

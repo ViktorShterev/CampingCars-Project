@@ -8,6 +8,7 @@ import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 import bg.softuni.campingcars.repository.RoleRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.AuthenticationService;
+import bg.softuni.campingcars.service.util.UuidGeneratorService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -27,6 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UuidGeneratorService uuidGeneratorService;
 
     @Override
     public boolean registerUser(UserRegistrationBindingModel userRegistrationBindingModel) {
@@ -49,6 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setActive(true);
             user.setCreated(LocalDateTime.now());
             user.setPassword(this.passwordEncoder.encode(userRegistrationBindingModel.getPassword()));
+            user.setUuid(this.uuidGeneratorService.generateUuid());
 
             this.userRepository.save(user);
 

@@ -37,12 +37,12 @@ public class RestConfig {
             // put the logged user details into bearer token
             authenticationService
                     .getCurrentUser()
-                    .ifPresent(mud -> {
+                    .ifPresent(ccud -> {
                         String bearerToken = jwtService.generateToken(
-                                mud.getUuid().toString(),//
+                                ccud.getUuid().toString(),
                                 Map.of(
                                         "roles",
-                                        mud.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
+                                        ccud.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
                                 )
                         );
 
