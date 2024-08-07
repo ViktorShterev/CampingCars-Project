@@ -58,6 +58,15 @@ jwt:
     secret: ${JWT_KEY:}
     expiration: ${JWT_EXPIRATION:}
 
+management:
+    server:
+        port: 9090
+    endpoints:
+        web:
+            base-path: /actuator
+            exposure:
+                include: "*"
+
 #mail:
 #    mobilele: mobilele@example.com
 #    host: localhost

@@ -3,6 +3,7 @@ package bg.softuni.campingcars.config;
 import bg.softuni.campingcars.model.enums.RoleEnum;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.impl.CampingCarsUserDetailsServiceImpl;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/brands/add").hasRole(RoleEnum.ADMIN.name())
                         .requestMatchers("/brands/delete").hasRole(RoleEnum.ADMIN.name())
                         .requestMatchers("/api/currency/convert").permitAll()
+                        .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
 //                        All other requests are authenticated
                         .anyRequest().authenticated()
 

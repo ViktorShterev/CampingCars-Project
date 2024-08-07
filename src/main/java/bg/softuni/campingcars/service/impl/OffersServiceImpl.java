@@ -4,6 +4,7 @@ import bg.softuni.campingcars.model.dto.views.OfferViewModel;
 import bg.softuni.campingcars.model.entity.Offer;
 import bg.softuni.campingcars.repository.OfferRepository;
 import bg.softuni.campingcars.service.OffersService;
+import bg.softuni.campingcars.service.aop.WarnIfExecutionExceeds;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ public class OffersServiceImpl implements OffersService {
 
     private final OfferRepository offerRepository;
 
+    @WarnIfExecutionExceeds(timeInMillis = 1000L)
     @Override
     public Page<OfferViewModel> findAllOffers(Pageable pageable) {
         return this.offerRepository.findAll(pageable)
