@@ -28,13 +28,9 @@ public record UpdateOfferBindingModel(
         @Positive
         int beds,
 
-        @NotNull
-        @Positive
         Long mileage,
 
-        @NotNull
-        @Positive
-        int horsepower,
+        Integer horsepower,
 
         @NotEmpty
         String imageUrl,
@@ -43,10 +39,8 @@ public record UpdateOfferBindingModel(
         @Positive
         BigDecimal price,
 
-        @NotNull
         EngineEnum engine,
 
-        @NotNull
         TransmissionEnum transmission
 ) {
 

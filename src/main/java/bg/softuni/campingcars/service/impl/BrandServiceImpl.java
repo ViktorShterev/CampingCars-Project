@@ -5,14 +5,19 @@ import bg.softuni.campingcars.model.dto.bindingModels.BrandModelAddBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.ModelDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.brandRestDtos.BrandRestDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.brandRestDtos.ModelRestDTO;
+import bg.softuni.campingcars.model.entity.BaseEntity;
 import bg.softuni.campingcars.model.entity.Category;
 import bg.softuni.campingcars.model.entity.Model;
 import bg.softuni.campingcars.repository.CategoryRepository;
 import bg.softuni.campingcars.repository.ModelRepository;
+import bg.softuni.campingcars.repository.OfferRepository;
 import bg.softuni.campingcars.service.BrandService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -24,6 +29,7 @@ public class BrandServiceImpl implements BrandService {
 
     private final ModelRepository modelRepository;
     private final CategoryRepository categoryRepository;
+    private final OfferRepository offerRepository;
     private final RestClient restClient;
 
     @Override
@@ -86,6 +92,31 @@ public class BrandServiceImpl implements BrandService {
                     .body(restDTO)
                     .retrieve();
 
+        }
+    }
+
+    @Override
+    @Transactional
+    public void deleteOffer(String name, UserDetails principal) {
+        if (principal.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+
+            List<Model> models = this.modelRepository.findAllByBrandName(name);
+
+            List<Long> modelIds = new ArrayList<>();
+
+            for (Model model : models) {
+                modelIds.add(model.getId());
+            }
+
+            if (this.offerRepository.findAllByModelIdIn(modelIds).isEmpty()) {
+
+                this.modelRepository.deleteAllByBrandName(name);
+
+                this.restClient
+                        .delete()
+                        .uri(uriBuilder -> uriBuilder.path("/brands/{name}").build(name))
+                        .retrieve();
+            }
         }
     }
 

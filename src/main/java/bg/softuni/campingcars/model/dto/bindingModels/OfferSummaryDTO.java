@@ -15,7 +15,7 @@ public record OfferSummaryDTO(
         int year,
         int beds,
         Long mileage,
-        int horsepower,
+        Integer horsepower,
         String imageUrl,
         BigDecimal price,
         EngineEnum engine,

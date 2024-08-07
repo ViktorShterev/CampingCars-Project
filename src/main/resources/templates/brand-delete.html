@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/head}">
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white" th:text="#{nav_bar_delete_brand_model}">Delete Brand</h2>
+    <div class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="brandName"
+                       th:text="#{add_brand}">Brand</label>
+                <select id="brandName" class="form-control" onchange="updateFormAction()">
+                    <option value="">- Select a brand -</option>
+                    <option
+                            th:each="brand : ${brands}"
+                            th:text="${brand.name()}"
+                            th:value="${brand.name()}">
+                        Brand
+                    </option>
+                </select>
+                <p class="invalid-feedback errors alert alert-warning" th:text="#{brand_message}">
+                    Brand is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <form id="deleteForm" th:method="delete">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <input type="submit" th:value="#{offer_delete}" class="link card-link"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <footer></footer>
+</div>
+<script>
+    function updateFormAction() {
+        // Get the selected brand name from the dropdown
+        const selectedBrand = document.getElementById('brandName').value;
+
+        // Find the delete form
+        const deleteForm = document.getElementById('deleteForm');
+
+        // Update the form action attribute with the selected brand name
+        if (selectedBrand) {
+            deleteForm.setAttribute('action', `/brands/${encodeURIComponent(selectedBrand)}`);
+        } else {
+            // Clear the action if no brand is selected
+            deleteForm.setAttribute('action', '');
+        }
+    }
+</script>
+</body>
+
+</html>

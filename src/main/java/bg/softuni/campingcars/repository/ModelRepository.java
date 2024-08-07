@@ -13,4 +13,6 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
     Optional<Model> findByName(String name);
 
     List<Model> findAllByBrandName(String brandName);
+
+    void deleteAllByBrandName(String brandName);
 }

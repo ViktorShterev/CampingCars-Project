@@ -6,15 +6,16 @@ import bg.softuni.campingcars.model.enums.CategoryEnum;
 import bg.softuni.campingcars.service.BrandService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/brands")
@@ -54,6 +55,25 @@ public class BrandController {
         }
 
         this.brandService.addBrandModel(brandModelAddBindingModel);
+
+        return new ModelAndView("redirect:/");
+    }
+
+    @GetMapping("/delete")
+    public ModelAndView deleteBrand() {
+        List<BrandDTO> allBrands = this.brandService.getAllBrands();
+
+        ModelAndView modelAndView = new ModelAndView("brand-delete");
+        modelAndView.addObject("brands", allBrands);
+
+        return modelAndView;
+    }
+
+    @DeleteMapping("/{name}")
+    public ModelAndView delete(@PathVariable("name") String name,
+                               @AuthenticationPrincipal UserDetails principal) {
+
+        this.brandService.deleteOffer(name, principal);
 
         return new ModelAndView("redirect:/");
     }

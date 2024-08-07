@@ -32,7 +32,8 @@ public class SecurityConfig {
                         .requestMatchers("/brands/all").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/offer/category", "offer/details/**", "offer/add/camper", "offer/add/caravan").permitAll()
-                        .requestMatchers("/brand/add").hasRole(RoleEnum.ADMIN.name())
+                        .requestMatchers("/brands/add").hasRole(RoleEnum.ADMIN.name())
+                        .requestMatchers("/brands/delete").hasRole(RoleEnum.ADMIN.name())
                         .requestMatchers("/api/currency/convert").permitAll()
 //                        All other requests are authenticated
                         .anyRequest().authenticated()
