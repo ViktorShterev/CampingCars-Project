@@ -1,6 +1,5 @@
 package bg.softuni.campingcars.model.dto.bindingModels.offers;
 
-import bg.softuni.campingcars.model.enums.CategoryEnum;
 import bg.softuni.campingcars.model.validation.YearNotInTheFuture;
 import jakarta.validation.constraints.*;
 import lombok.Getter;

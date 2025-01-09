@@ -75,8 +75,8 @@ public class SecurityConfig {
         return new CampingCarsUserDetailsServiceImpl(userRepository);
     }
 
-        @Bean
-        public PasswordEncoder passwordEncoder () {
-            return new BCryptPasswordEncoder();
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+}

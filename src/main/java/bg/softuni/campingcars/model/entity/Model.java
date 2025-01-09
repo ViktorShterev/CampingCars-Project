@@ -17,7 +17,6 @@ public class Model extends BaseEntity {
     @ManyToOne
     private Category category;
 
-
     public Model setName(String name) {
         this.name = name;
         return this;

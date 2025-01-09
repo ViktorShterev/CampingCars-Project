@@ -3,6 +3,7 @@ package bg.softuni.campingcars.service.impl;
 import bg.softuni.campingcars.model.entity.Role;
 import bg.softuni.campingcars.model.entity.User;
 import bg.softuni.campingcars.model.enums.RoleEnum;
+import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 import bg.softuni.campingcars.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ import java.util.Set;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CampingCarsUserDetailsServiceImplTestIT {
+class CampingCarsUserDetailsServiceImplTest {
 
     private CampingCarsUserDetailsServiceImpl serviceTest;
 
@@ -50,8 +51,16 @@ class CampingCarsUserDetailsServiceImplTestIT {
 
         // Assert
         Assertions.assertNotNull(userDetails);
-        Assertions.assertEquals(testUser.getEmail(), userDetails.getUsername());
-        Assertions.assertEquals(testUser.getPassword(), userDetails.getPassword());
+        Assertions.assertInstanceOf(CampingCarsUserDetails.class, userDetails);
+
+        CampingCarsUserDetails campingCarsUserDetails = (CampingCarsUserDetails) userDetails;
+
+        Assertions.assertEquals(testUser.getUuid(), campingCarsUserDetails.getUuid());
+        Assertions.assertEquals(testUser.getEmail(), campingCarsUserDetails.getUsername());
+        Assertions.assertEquals(testUser.getPassword(), campingCarsUserDetails.getPassword());
+        Assertions.assertEquals(testUser.getFirstName(), campingCarsUserDetails.getFirstName());
+        Assertions.assertEquals(testUser.getLastName(), campingCarsUserDetails.getLastName());
+        Assertions.assertFalse(testUser.isActive());
 
         Assertions.assertEquals(2, userDetails.getAuthorities().size());
 
