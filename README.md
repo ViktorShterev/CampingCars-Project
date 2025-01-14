@@ -29,7 +29,7 @@ Welcome to the **Camping Cars Marketplace** platform! This project is designed t
 
 ### Backend
 
-*   **Java**: Built with Java for robust and scalable backend development.
+*   **Java**: Built with Java using Maven for robust and scalable backend development.
     
 *   **Spring Framework**:
     
