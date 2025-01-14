@@ -22,11 +22,6 @@ Welcome to the **Camping Cars Marketplace** platform! This project is designed t
         
 *   **🔒 Secure Environment**: Uses Spring Security for robust user authentication and authorization.
   
-    **✅ Testing**:
-    
-    *   **JUnit 5**: For unit testing.
-        
-    *   **Mockito**: For integration testing.
     
 
 🛠 Tech Stack
@@ -61,3 +56,8 @@ Welcome to the **Camping Cars Marketplace** platform! This project is designed t
     
 *   **OOP and SOLID Principles**: Provides a modular, flexible, and scalable codebase.
     
+### Testing ✅
+    
+*   **JUnit 5**: For unit testing.
+        
+*   **Mockito**: For integration testing.
