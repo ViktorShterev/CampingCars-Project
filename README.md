@@ -18,7 +18,7 @@ Welcome to the **Camping Cars Marketplace** platform! This project is designed t
     
     *   Main project for core functionalities.
         
-    *   CampingCars-Brand-Rest-Microservice handles brand and model data separately, communication via secure REST APIs using JSON and JWT tokens.
+    *   [**CampingCars-Brand-Rest-Microservice**](https://github.com/ViktorShterev/CampingCars-Brand-Rest-Microservice) handles brand and model data separately, communication via secure REST APIs using JSON and JWT tokens.
         
 *   **🔒 Secure Environment**: Uses Spring Security for robust user authentication and authorization.
   
