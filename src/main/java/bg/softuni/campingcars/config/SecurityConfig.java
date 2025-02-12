@@ -41,7 +41,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
 
         ).formLogin(
-                formLogin -> {
+                formLogin ->
                     formLogin
 //                            Redirect here when we access something which is not allowed
 //                            Also this is the page where we perform login
@@ -50,20 +50,17 @@ public class SecurityConfig {
                             .usernameParameter("email")
                             .passwordParameter("password")
                             .defaultSuccessUrl("/")
-                            .failureForwardUrl("/users/login-error");
-
-                }
+                            .failureForwardUrl("/users/login-error")
 
         ).logout(
-                logout -> {
+                logout ->
                     logout
 //                            The url where we should POST something in order to perform the logout
                             .logoutUrl("/users/logout")
 //                            Where to go when logged out
                             .logoutSuccessUrl("/")
 //                            Invalidate the HTTP session
-                            .invalidateHttpSession(true);
-                }
+                            .invalidateHttpSession(true)
 
         ).build();
     }
