@@ -4,41 +4,6 @@
 <head th:replace="~{fragments/head}">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .brand-section {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .brand-section h2 {
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        .brand-section table {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .brand-section table th {
-            text-align: left;
-            padding: 8px;
-            background-color: #007bff;
-            color: white;
-        }
-
-        .brand-section table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        .brand-section table td {
-            padding: 8px;
-            color: #343a40;
-        }
-    </style>
 </head>
 
 <body>
@@ -50,28 +15,38 @@
 <div class="container">
     <h2 class="text-center text-white m-3" th:text="#{nav_bar_all_brands}">All Brands</h2>
 
-    <div class="row mb-4 d-flex justify-content-around">
-        <div th:each="brand : ${brands}" class="brand-section col-md-5 d-flex flex-column">
-            <h2><span th:text="${brand.name}">Brand name</span></h2>
-            <div>
-                <p style="font-size: 14px; font-weight: bold;" th:text="#{model_models} + ':'">Models:</p>
-                <table class="table table-striped">
-                    <thead>
-                    <tr style="font-weight: bold; font-size: 12px;">
-                        <th th:text="#{model_name}">Name</th>
-                        <th th:text="#{model_category}">Category</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="model : ${brand.models}">
-                        <td th:text="${model.name}">Model Name</td>
-                        <td th:text="${model.category.equals('CAMPER') ? 'Camper' : 'Caravan'}">Model Category</td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="container" style="padding: 15px">
+        <div class="row mb-4 d-flex justify-content-center">
+            <div th:each="brand : ${brands}"
+                 class="brand-section col-md-5 col-lg-4 shadow-lg p-4 mb-4 rounded"
+                 style="background-color: #383d41;">
+
+                <h2 class="text-center mb-3" style="color: #d89722;">
+                    <span th:text="${brand.name}">Brand Name</span>
+                </h2>
+
+                <p class="text-light font-weight-bold">Models:</p>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead style="background-color: #d89722; color: white;">
+                        <tr>
+                            <th th:text="#{model_name}">Name</th>
+                            <th th:text="#{model_category}">Category</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="model : ${brand.models}">
+                            <td th:text="${model.name}">Model Name</td>
+                            <td th:text="${model.category.equals('CAMPER') ? 'Camper' : 'Caravan'}">Model Category</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
 
     <div>
         <footer></footer>

@@ -26,6 +26,11 @@
             box-shadow: none; /* Remove default focus shadow */
             border-color: #aca3a3;
         }
+
+        .navbar .logout .custom-border {
+            border-color: #d89722 !important;
+        }
+
     </style>
 </head>
 
@@ -54,8 +59,7 @@
             <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{nav_bar_admin}">
-                    Admin
-                </a>
+                    Admin</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" th:href="@{/brands/add}" th:text="#{nav_bar_add_brand_model}">Add
                         Brand/Model</a>
@@ -67,8 +71,8 @@
                 <a class="nav-link" th:href="@{/about}" th:text="#{nav_bar_about}">About us</a>
             </li>
 
-            <li sec:authorize="isAuthenticated()" class="nav-item">
-                <div class="form-inline my-2 my-lg-0 border px-3">
+            <li sec:authorize="isAuthenticated()" class="nav-item logout">
+                <div class="form-inline my-2 my-lg-0 border px-3 custom-border">
                     <div class="logged-user" th:text="#{nav_bar_welcome} + ', ' + ${#authentication.getName()} + '!'">
                     </div>
                     <form th:method="post" th:action="@{/users/logout}">
