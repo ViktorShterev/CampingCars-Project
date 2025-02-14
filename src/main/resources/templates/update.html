@@ -13,12 +13,13 @@
 
 <div class="container">
     <h2 class="text-center text-white">Update Offer</h2>
+    <br>
     <form
             th:object="${updateOfferBindingModel}"
 
             th:method="PUT"
             th:action="@{/offer/update/{uuid}(uuid=${updateOfferBindingModel.uuid})}"
-            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center" style="background: #343a40">
         <div class="row">
 
             <div class="form-group col-md-6 mb-3">
@@ -184,11 +185,11 @@
                 </p>
             </div>
         </div>
-
+        <br>
         <div class="row">
             <div class="col col-md-4">
                 <div class="button-holder d-flex">
-                    <input type="submit" class="btn btn-info btn-lg" value="Update Offer"/>
+                    <input type="submit" class="btn btn-info btn-lg" style="background-color: #007bff; border-color: #007bff" value="Update Offer"/>
                 </div>
             </div>
         </div>
