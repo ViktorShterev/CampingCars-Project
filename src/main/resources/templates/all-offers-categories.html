@@ -32,7 +32,7 @@
                     <h5 class="card-title" th:text="${offer.brand}"></h5>
                     <h6 class="card-title" th:text="${offer.model}"></h6>
                     <p class="card-text" th:text="${offer.year}"></p>
-                    <p class="card-text" th:text="${offer.price}"></p>
+                    <p class="card-text" th:text="${offer.price} + ' BGN'"></p>
                     <a th:href="@{/offer/details/{uuid}(uuid=${offer.uuid})}" class="btn btn-info" style="background-color: #007bff; border-color: #007bff" th:text="#{offers_view_details}">View Details</a>
                 </div>
             </div>
