@@ -11,60 +11,61 @@
 </div>
 
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding: 42px">
     <h2 class="text-center text-white mt-5" th:text="#{offer_details}">Details</h2>
+    <br>
     <div class="offers row mx-auto d-flex flex-row justify-content-center">
-        <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0">
+        <div class="offer card col-sm-2 col-md-3  col-lg-4 m-1 p-0" style="background: #343a40">
 
             <div class="card-body pb-1">
-                <h5 class="card-title" th:text="${offer.summary()}">
+                <h5 class="card-title" style="color: white" th:text="${offer.summary()}">
                     Offer year Brand name Model name</h5>
             </div>
             <ul class="offer-details list-group list-group-flush">
-                <li class="list-group-item">
+                <li class="list-group-item" style="background: #343a40; color: #d89722">
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
-                        <span th:text="'• ' + #{offer_mileage}">• Mileage</span>
+                        <span th:text="'• ' + #{offer_mileage} + ':'">• Mileage</span>
                         <th:block th:text="${offer.mileage}"></th:block>
                     </div>
 
                     <div class="card-text">
-                        <span id="price" th:text="'• Price ' + ${offer.price} + ' BGN'"></span>
+                        <span id="price" th:text="'• Price: ' + ${offer.price} + ' BGN'"></span>
                         <form onsubmit="convertToUSD(event)">
-                            <input id="convertButton" type="submit" th:value="#{offer_convert}" class="link card-link"/>
+                            <input id="convertButton" type="submit" style="background-color: #007bff; border-color: #007bff; color: white; border-radius: 5px" th:value="#{offer_convert}" class="link card-link"/>
                         </form>
                         <span id="convertedAmount"></span> <!-- Area to display converted amount -->
                     </div>
 
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
-                        <span th:text="'• ' + #{engine_type}">• Engine type</span>
+                        <span th:text="'• ' + #{engine_type} + ':'">• Engine type</span>
                         <th:block th:text="${offer.engine.name()}"></th:block>
                     </div>
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
-                        <span th:text="'• ' + #{transmission_type}">• Transmission type</span>
+                        <span th:text="'• ' + #{transmission_type} + ':'">• Transmission type</span>
                         <th:block th:text="${offer.transmission.name()}"></th:block>
                     </div>
                     <div class="card-text">
-                        <span th:text="'• ' + #{offer_created}">• Offer created</span>
+                        <span th:text="'• ' + #{offer_created} + ':'">• Offer created</span>
                         <th:block th:text="${#temporals.format(offer.created, 'dd-MM-yyyy')}"></th:block>
                     </div>
                     <div th:if="${offer.modified != null}" class="card-text">
-                        <span th:text="'• ' + #{offer_modified}">• Offer modified</span>
+                        <span th:text="'• ' + #{offer_modified} + ':'">• Offer modified</span>
                         <th:block th:text="${#temporals.format(offer.modified, 'dd-MM-yyyy')}"></th:block>
                     </div>
                     <div class="card-text">
-                        <span th:text="'• ' + #{offer_seller}">• Seller </span>
+                        <span th:text="'• ' + #{offer_seller} + ':'">• Seller </span>
                         <th:block th:text="${offer.seller}"></th:block>
                     </div>
                 </li>
             </ul>
-            <div class="card-body" th:if="${offer.viewerIsOwner}">
+            <div class="card-body" th:if="${offer.viewerIsOwner}" style="display: flex; justify-content: space-between; align-items: center;">
                 <form th:method="get"
                       th:action="@{/offer/update/{uuid}(uuid=${offer.uuid})}">
-                    <input type="submit" th:value="#{offer_update}" class="link card-link"/>
+                    <input type="submit" style="background-color: #007bff; border-color: #007bff; color: white; border-radius: 5px" th:value="#{offer_update}" class="link card-link"/>
                 </form>
                 <form th:method="delete"
                       th:action="@{/offer/{uuid}(uuid=${offer.uuid})}">
-                    <input type="submit" th:value="#{offer_delete}" class="link card-link"/>
+                    <input type="submit" style="background-color: #dc3545; border-color: #dc3545; color: white; border-radius: 5px" th:value="#{offer_delete}" class="link card-link"/>
                 </form>
             </div>
         </div>
