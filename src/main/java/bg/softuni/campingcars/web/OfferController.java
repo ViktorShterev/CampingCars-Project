@@ -9,6 +9,7 @@ import bg.softuni.campingcars.model.enums.EngineEnum;
 import bg.softuni.campingcars.model.enums.TransmissionEnum;
 import bg.softuni.campingcars.service.BrandService;
 import bg.softuni.campingcars.service.OfferService;
+import bg.softuni.campingcars.service.exception.ObjectNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -97,7 +98,7 @@ public class OfferController {
                                 @AuthenticationPrincipal UserDetails viewer) {
 
         OfferSummaryDTO offerSummaryDTO = this.offerService.getOfferDetail(uuid, viewer)
-                .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
+                .orElseThrow(() -> new ObjectNotFoundException("Offer with uuid " + uuid + " was not found!"));
 
         ModelAndView modelAndView = new ModelAndView("details");
         modelAndView.addObject("offer", offerSummaryDTO);

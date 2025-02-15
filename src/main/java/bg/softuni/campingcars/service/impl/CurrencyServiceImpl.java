@@ -6,6 +6,7 @@ import bg.softuni.campingcars.model.dto.bindingModels.MoneyDTO;
 import bg.softuni.campingcars.model.entity.ExchangeRate;
 import bg.softuni.campingcars.repository.ExchangeRateRepository;
 import bg.softuni.campingcars.service.CurrencyService;
+import bg.softuni.campingcars.service.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +64,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public MoneyDTO convert(ConvertRequestDTO convertRequestDTO) {
         ExchangeRate exchangeRate = this.exchangeRateRepository.findById(convertRequestDTO.getTarget())
                 .orElseThrow(() ->
-                        new IllegalArgumentException("Conversion to target " + convertRequestDTO.getTarget() + " not possible!"));
+                        new ObjectNotFoundException("Conversion to target " + convertRequestDTO.getTarget() + " not possible!"));
 
         return new MoneyDTO(convertRequestDTO.getTarget(),
                 exchangeRate.getExchangeRate().multiply(BigDecimal.valueOf(convertRequestDTO.getAmount())));

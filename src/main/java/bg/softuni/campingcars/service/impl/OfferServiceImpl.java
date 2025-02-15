@@ -12,6 +12,7 @@ import bg.softuni.campingcars.repository.ModelRepository;
 import bg.softuni.campingcars.repository.OfferRepository;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.OfferService;
+import bg.softuni.campingcars.service.exception.ObjectNotFoundException;
 import bg.softuni.campingcars.service.util.UuidGeneratorService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -82,7 +83,7 @@ public class OfferServiceImpl implements OfferService {
         if (isOwner(uuid, viewer.getUsername())) {
 
             OfferSummaryDTO offerSummaryDTO = getOfferDetail(uuid, viewer)
-                    .orElseThrow(() -> new IllegalArgumentException("Offer with uuid " + uuid + " was not found!"));
+                    .orElseThrow(() -> new ObjectNotFoundException("Offer with uuid " + uuid + " was not found!"));
 
             return new UpdateOfferBindingModel(
                     offerSummaryDTO.uuid(),
@@ -104,7 +105,7 @@ public class OfferServiceImpl implements OfferService {
 
     private void updatingOffer(UUID uuid, UpdateOfferBindingModel updateOfferBindingModel) {
         Offer offer = this.offerRepository.findByUuid(uuid)
-                .orElseThrow(() -> new IllegalArgumentException("Offer not found"));
+                .orElseThrow(() -> new ObjectNotFoundException("Offer not found"));
 
         offer.setDescription(updateOfferBindingModel.description());
         offer.setPrice(updateOfferBindingModel.price());
@@ -114,7 +115,7 @@ public class OfferServiceImpl implements OfferService {
         offer.setImageUrl(updateOfferBindingModel.imageUrl());
 
         Model model = this.modelRepository.findByName(updateOfferBindingModel.model())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid Model"));
+                .orElseThrow(() -> new ObjectNotFoundException("Invalid Model"));
 
         offer.setModel(model);
 
@@ -160,7 +161,7 @@ public class OfferServiceImpl implements OfferService {
         }
 
         User user = this.userRepository.findByEmail(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
 
         if (isAdmin(user)) {
             //all admins own all offers
@@ -194,13 +195,13 @@ public class OfferServiceImpl implements OfferService {
             }
 
             Model model = this.modelRepository.findById(modelId)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid Model"));
+                    .orElseThrow(() -> new ObjectNotFoundException("Invalid Model"));
 
             User user = this.userRepository.findByEmail(seller.getUsername())
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid User"));
+                    .orElseThrow(() -> new ObjectNotFoundException("Invalid User"));
 
             Category categoryEntity = this.categoryRepository.findByCategory(category)
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid Category"));
+                    .orElseThrow(() -> new ObjectNotFoundException("Invalid Category"));
 
             offer.setModel(model);
             offer.setSeller(user);
