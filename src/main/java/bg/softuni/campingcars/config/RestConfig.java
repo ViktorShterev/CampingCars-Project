@@ -20,11 +20,11 @@ public class RestConfig {
 //    }
 
     @Bean("brandRestClient")
-    public RestClient offersRestClient(BrandApiConfig offersApiConfig,
+    public RestClient offersRestClient(BrandApiConfig brandsApiConfig,
                                        ClientHttpRequestInterceptor requestInterceptor) {
         return RestClient
                 .builder()
-                .baseUrl(offersApiConfig.getBaseUrl())
+                .baseUrl(brandsApiConfig.getBaseUrl())
                 .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                 .requestInterceptor(requestInterceptor)
                 .build();

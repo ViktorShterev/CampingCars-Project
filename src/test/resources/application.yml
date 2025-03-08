@@ -30,6 +30,10 @@ open.exchange.rates:
   symbols: BGN
   enabled: false
 
+jwt:
+  secret: ${JWT_KEY:}
+  expiration: 60000
+
 #mail:
 #  mobilele: mobilele@example.com
 #  host: localhost

@@ -5,7 +5,6 @@ import bg.softuni.campingcars.model.dto.bindingModels.BrandModelAddBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.ModelDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.brandRestDtos.BrandRestDTO;
 import bg.softuni.campingcars.model.dto.bindingModels.brandRestDtos.ModelRestDTO;
-import bg.softuni.campingcars.model.entity.BaseEntity;
 import bg.softuni.campingcars.model.entity.Category;
 import bg.softuni.campingcars.model.entity.Model;
 import bg.softuni.campingcars.repository.CategoryRepository;
@@ -21,7 +20,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
