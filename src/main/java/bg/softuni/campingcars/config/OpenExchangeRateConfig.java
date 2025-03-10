@@ -1,6 +1,7 @@
 package bg.softuni.campingcars.config;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +14,7 @@ public class OpenExchangeRateConfig {
 
     private String host;
 
+    @Value("${open.exchange.rates.app_id}")
     private String appId;
 
     private String schema;

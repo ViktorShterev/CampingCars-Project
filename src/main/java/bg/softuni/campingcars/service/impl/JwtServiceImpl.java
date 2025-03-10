@@ -17,17 +17,15 @@ import org.springframework.stereotype.Service;
 public class JwtServiceImpl implements JwtService {
 
     private final String jwtSecret;
-    private final long expiration;
 
-    public JwtServiceImpl(@Value("${jwt.secret}") String jwtSecret,
-                          @Value("${jwt.expiration}") long expiration) {
+    public JwtServiceImpl(@Value("${jwt.secret}") String jwtSecret) {
         this.jwtSecret = jwtSecret;
-        this.expiration = expiration;
     }
 
     @Override
     public String generateToken(String userId, Map<String, Object> claims) {
         var now = new Date();
+        long expiration = 60000;
 
         return Jwts
                 .builder()

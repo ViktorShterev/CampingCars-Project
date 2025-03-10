@@ -23,6 +23,10 @@
             </div>
             <ul class="offer-details list-group list-group-flush">
                 <li class="list-group-item" style="background: #343a40; color: #d89722">
+                    <div class="card-text">
+                        <span th:text="'• ' + #{offer_description} + ':'">• Description</span>
+                        <th:block th:text="${offer.description()}"></th:block>
+                    </div>
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
                         <span th:text="'• ' + #{offer_mileage} + ':'">• Mileage</span>
                         <th:block th:text="${offer.mileage}"></th:block>
@@ -43,6 +47,14 @@
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
                         <span th:text="'• ' + #{transmission_type} + ':'">• Transmission type</span>
                         <th:block th:text="${offer.transmission.name()}"></th:block>
+                    </div>
+                    <div th:if="${offer.category == 'CAMPER'}" class="card-text">
+                        <span th:text="'• ' + #{offer_power} + ':'">• Horsepower</span>
+                        <th:block th:text="${offer.horsepower()}"></th:block>
+                    </div>
+                    <div class="card-text">
+                        <span th:text="'• ' + #{offer_beds} + ':'">• Beds</span>
+                        <th:block th:text="${offer.beds()}"></th:block>
                     </div>
                     <div class="card-text">
                         <span th:text="'• ' + #{offer_created} + ':'">• Offer created</span>
