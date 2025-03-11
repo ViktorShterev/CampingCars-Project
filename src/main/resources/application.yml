@@ -5,12 +5,12 @@ spring:
         name: campingCars
     datasource:
         driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://localhost:3306/campingCars?createDatabaseIfNotExist=true
+        url: jdbc:mysql://mysql-db:3306/campingCars?createDatabaseIfNotExist=true
         username: ${MYSQL_USER:}
         password: ${MYSQL_PASS:}
     sql:
         init:
-            mode: never
+            mode: always
     mvc:
         hiddenmethod:
             filter:
@@ -30,10 +30,13 @@ spring:
         cache: false
         mode: HTML
         encoding: UTF-8
-        prefix: file:src/main/resources/templates/
+        prefix: classpath:/templates/
+        suffix: .html
+        check-template-location: true
+        enabled: true
     web:
         resources:
-            static-locations: file:src/main/resources/static/
+            static-locations: classpath:/static/
             cache:
                 period: 0
 
@@ -46,17 +49,17 @@ open.exchange.rates:
     schema: https
     host: openexchangerates.org
     path: /api/latest.json
-    app_id: ${APP_ID:}
+    app_id: ${APP_ID}
     symbols: BGN
     enabled: false
 
 brand:
     api:
-        baseUrl: "${BRAND_BASE_URL:http://localhost:8081}"
+        baseUrl: ${BRAND_BASE_URL:}
 
 jwt:
     secret: ${JWT_KEY:}
-    expiration: ${JWT_EXPIRATION:}
+
 
 management:
     server:

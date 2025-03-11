@@ -39,7 +39,7 @@ public class BrandServiceImpl implements BrandService {
 
         List<BrandRestDTO> restDTO = this.restClient
                 .get()
-                .uri("/brands/all")
+                .uri("http://brands-microservice:8081/brands/all")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .body(new ParameterizedTypeReference<>() {
@@ -90,7 +90,7 @@ public class BrandServiceImpl implements BrandService {
 
             this.restClient
                     .post()
-                    .uri("/brands/add")
+                    .uri("http://brands-microservice:8081/brands/add")
                     .body(restDTO)
                     .retrieve();
 
@@ -116,8 +116,9 @@ public class BrandServiceImpl implements BrandService {
 
                 this.restClient
                         .delete()
-                        .uri(uriBuilder -> uriBuilder.path("/brands/{name}").build(name))
-                        .retrieve();
+                        .uri("http://brands-microservice:8081/brands/{name}", name)
+                        .retrieve()
+                        .toBodilessEntity();
             }
         }
     }

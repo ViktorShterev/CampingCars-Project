@@ -32,7 +32,7 @@ open.exchange.rates:
 
 jwt:
   secret: ${JWT_KEY:}
-  expiration: 60000
+  expiration: ${JWT_EXPIRATION:}
 
 #mail:
 #  mobilele: mobilele@example.com
