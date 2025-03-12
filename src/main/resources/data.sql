@@ -22,7 +22,7 @@ VALUES ('CARAONE 390 PUH', 'Weinsberg', 2),
        ('Travel Master', 'Kabe', 1),
        ('Aristeo', 'Benimar', 1),
        ('C-Tourer', 'Carthago', 1),
-       ('Viseo 726 Integral', 'Bürstner', 1),
+       ('Viseo 726 Integral', 'Buerstner', 1),
        ('EX 698', 'Hymer', 1),
        ('7150-2 Esprit', 'Dethleffs', 1);
 
