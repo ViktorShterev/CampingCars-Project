@@ -35,7 +35,7 @@ services:
       - C:\Users\vikto\Desktop\Java Web\Spring Advanced\src code\Camping_Cars_new_brand_rest\new_brand_rest_app/src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
 
   camping-cars:
-    image: viktorshterev/camping-cars:latest
+    image: viktorshterev/camping-cars:1.0
     container_name: camping-cars
     depends_on:
       mysql-db:
