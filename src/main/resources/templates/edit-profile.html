@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/head}">
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white" th:text="#{change_profile_data}">Edit Profile</h2>
+    <br>
+    <form
+            th:method="PUT"
+            th:action="@{/users/profile/edit/{uuid}(uuid=${updateProfileBindingModel.uuid})}"
+            th:object="${updateProfileBindingModel}"
+            class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center" style="background: #343a40">
+        <div class="row">
+
+            <div class="form-group col-md-6 mb-3">
+                <label for="firstName" class="text-white font-weight-bold" th:text="#{register_first_name}">First Name</label>
+                <input th:field="*{firstName}"
+                       th:errorclass="bg-warning"
+                       id="firstName" type="text" min="2" max="30" class="form-control"
+                       th:placeholder="#{register_first_name}"/>
+                <p th:if="${#fields.hasErrors('firstName')}"
+                   th:errors="*{firstName}" class="errors alert alert-danger"></p>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="lastName" class="text-white font-weight-bold" th:text="#{register_last_name}">Last
+                    Name</label>
+                <input th:field="*{lastName}"
+                       th:errorclass="bg-warning"
+                       id="lastName" type="text" min="2" max="50" class="form-control"
+                       th:placeholder="#{register_last_name}"/>
+                <p th:if="${#fields.hasErrors('lastName')}"
+                   th:errors="*{lastName}" class="errors alert alert-danger"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="email" class="text-white font-weight-bold" th:text="#{register_email}">Email</label>
+                <input th:field="*{email}"
+                       th:errorclass="bg-warning"
+                       id="email" type="text" min="2" max="20" class="form-control"
+                       th:placeholder="#{register_email}"/>
+                <p th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}" class="errors alert alert-danger"></p>
+                <div th:if="${hasErrors}"
+                     th:text="'Email is used by another user!'" class="text-warning"></div>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <label for="age" class="text-white font-weight-bold" th:text="#{register_age}">Age</label>
+                <input th:field="*{age}"
+                       th:errorclass="bg-warning"
+                       id="age" type="number" min="16" max="120" class="form-control"
+                       th:placeholder="#{register_age}"/>
+                <p th:if="${#fields.hasErrors('age')}"
+                   th:errors="*{age}" class="errors alert alert-danger"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label for="password" class="text-white font-weight-bold"
+                       th:text="#{register_password}">Password</label>
+                <input th:field="*{password}"
+                       th:errorclass="is-invalid"
+                       id="password" type="password" min="4" max="30" class="form-control"
+                       th:placeholder="#{register_password}"/>
+                <p th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}" class="errors alert alert-danger"></p>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                    <input type="submit" class="btn btn-info btn-lg"
+                           style="background-color: #007bff; border-color: #007bff"
+                           th:value="#{change_data}"/>
+                </div>
+            </div>
+            <div class="col col-md-4 offset-md-4 d-flex justify-content-end">
+                <div class="button-holder">
+                    <input type="submit" class="btn btn-info btn-lg"
+                           style="background-color: #dc3545; border-color: #dc3545;"
+                           th:value="#{change_password}"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <footer></footer>
+</div>
+
+</body>
+</html>
