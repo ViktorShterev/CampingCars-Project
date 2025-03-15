@@ -57,10 +57,10 @@
                 <a class="nav-link" th:href="@{/offers/all}" th:text="#{nav_bar_all_offers}">All Offers</a>
             </li>
             <li sec:authorize="hasRole('ADMIN')" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button"
+                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdownAdmin" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{nav_bar_admin}">
                     Admin</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
                     <a class="dropdown-item" th:href="@{/brands/add}" th:text="#{nav_bar_add_brand_model}">Add
                         Brand/Model</a>
                     <div class="dropdown-divider"></div>
@@ -70,7 +70,16 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/about}" th:text="#{nav_bar_about}">About us</a>
             </li>
-
+            <li sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdownAccount" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{navbar_account}">
+                    Account</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownAccount">
+                    <a class="dropdown-item" th:href="@{/users/profile}" th:text="#{navbar_profile}">My Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/users/offers}" th:text="#{navbar_offers}">My Offers</a>
+                </div>
+            </li>
             <li sec:authorize="isAuthenticated()" class="nav-item logout">
                 <div class="form-inline my-2 my-lg-0 border px-3 custom-border">
                     <div class="logged-user" th:text="#{nav_bar_welcome} + ', ' + ${#authentication.getName()} + '!'">

@@ -32,7 +32,8 @@ public class CampingCarsUserDetailsServiceImpl implements UserDetailsService {
                 user.getPassword(),
                 user.getRoles().stream().map(Role::getRole).map(CampingCarsUserDetailsServiceImpl::mapped).toList(),
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                user.getAge()
         );
     }
 

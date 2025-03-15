@@ -13,6 +13,7 @@ public class CampingCarsUserDetails extends User {
     private final UUID uuid;
     private final String firstName;
     private final String lastName;
+    private final int age;
 
     public CampingCarsUserDetails(
             UUID uuid,
@@ -20,12 +21,13 @@ public class CampingCarsUserDetails extends User {
             String password,
             Collection<? extends GrantedAuthority> authorities,
             String firstName,
-            String lastName
+            String lastName, int age
     ) {
         super(username, password, authorities);
         this.uuid = uuid;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
     }
 
     public String getFullName() {
