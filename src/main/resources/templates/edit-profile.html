@@ -50,7 +50,7 @@
                 <p th:if="${#fields.hasErrors('email')}"
                    th:errors="*{email}" class="errors alert alert-danger"></p>
                 <div th:if="${hasErrors}"
-                     th:text="'Email is used by another user!'" class="text-warning"></div>
+                     th:text="#{email_used}" class="text-warning"></div>
             </div>
             <div class="form-group col-md-6 mb-3">
                 <label for="age" class="text-white font-weight-bold" th:text="#{register_age}">Age</label>

@@ -14,19 +14,19 @@
 <div class="container">
     <h2 class="text-center text-white" th:text="#{navbar_profile}">My Profile</h2>
     <br>
-    <div class="main-form mx-auto col-md-6 d-flex flex-column justify-content-center p-4 rounded" style="background: #343a40; max-width: 500px;">
+    <div class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center" style="background: #343a40; max-width: 500px; border-radius: 5px;">
         <div class="text-center mt-1">
             <h6 th:text="#{account_full_name}" class="mt-3 mb-1" style="color: #d89722">Full name</h6>
             <span th:text="${currentUser.getFullName()}"
-                  class="bg-secondary p-2 px-4 rounded-pill text-white d-inline-block" style="font-size: large; margin-bottom: 10px;">Full name</span>
+                  class="bg-secondary p-2 px-4 rounded-pill text-white d-inline-block" style="font-size: large; margin-bottom: 10px; border-radius: 5px;">Full name</span>
 
             <h6 th:text="#{register_email}" class="mt-3 mb-1" style="color: #d89722">Email</h6>
             <span th:text="${currentUser.getUsername()}"
-                  class="bg-secondary p-2 px-4 rounded-pill text-white d-inline-block" style="font-size: large; margin-bottom: 10px;">Email</span>
+                  class="bg-secondary p-2 px-4 rounded-pill text-white d-inline-block" style="font-size: large; margin-bottom: 10px; border-radius: 5px;">Email</span>
 
             <h6 th:text="#{register_age}" class="mt-3 mb-1" style="color: #d89722">Age</h6>
             <span th:text="${currentUser.getAge()}"
-                  class="bg-secondary p-2 px-4 rounded-pill text-white d-inline-block" style="font-size: large; margin-bottom: 15px;">Age</span>
+                  class="bg-secondary p-2 px-4 rounded-pill text-white d-inline-block" style="font-size: large; margin-bottom: 15px; border-radius: 5px;">Age</span>
 
             <br>
             <div class="buttons mt-3">
@@ -38,7 +38,7 @@
             <div class="buttons mt-3">
                     <form th:method="get"
                           th:action="@{/users/profile/edit/password/{uuid}(uuid=${currentUser.getUuid()})}">
-                    <input type="submit" style="background-color: #dc3545; border-color: #dc3545; color: white; border-radius: 5px" th:value="#{change_password}" class="btn px-4 rounded-pill"/>
+                    <input type="submit" style="background-color: #dc3545; border-color: #dc3545; color: white; border-radius: 5px; margin-bottom: 20px;" th:value="#{change_password}" class="btn px-4 rounded-pill"/>
                 </form>
             </div>
         </div>

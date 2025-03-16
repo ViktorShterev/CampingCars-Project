@@ -94,7 +94,7 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("changePasswordBindingModel", changePasswordBindingModel);
-            modelAndView.addObject("org.springframework.validation.BindingResult.updateProfileBindingModel", bindingResult);
+            modelAndView.addObject("org.springframework.validation.BindingResult.changePasswordBindingModel", bindingResult);
             return modelAndView;
         }
 
