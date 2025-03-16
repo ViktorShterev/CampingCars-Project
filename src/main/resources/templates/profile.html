@@ -35,6 +35,12 @@
                     <input type="submit" style="background-color: #007bff; border-color: #007bff; color: white; border-radius: 5px" th:value="#{change_profile_data}" class="btn px-4 rounded-pill"/>
                 </form>
             </div>
+            <div class="buttons mt-3">
+                    <form th:method="get"
+                          th:action="@{/users/profile/edit/password/{uuid}(uuid=${currentUser.getUuid()})}">
+                    <input type="submit" style="background-color: #dc3545; border-color: #dc3545; color: white; border-radius: 5px" th:value="#{change_password}" class="btn px-4 rounded-pill"/>
+                </form>
+            </div>
         </div>
     </div>
 </div>
