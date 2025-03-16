@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/head}">
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white" th:text="#{remove_admin}">Remove Admin</h2>
+    <br>
+    <form th:method="PUT"
+          th:action="@{/admin/remove}"
+          th:object="${adminBindingModel}">
+    <div class="main-form mx-auto col-md-8 d-flex flex-column justify-content-center">
+        <div class="row">
+            <div class="form-group col-md-6 mb-3">
+                <label class="text-center text-white font-weight-bold" for="adminEmail"
+                       th:text="#{remove_admin}">Remove Admin</label>
+
+                <select id="adminEmail" class="form-control" th:field="*{email}">
+                    <option value="">- Select Admin User -</option>
+                    <option th:each="admin : ${allAdmins}"
+                            th:text="${admin.email()}"
+                            th:value="${admin.email()}">
+                        Admin
+                    </option>
+                </select>
+
+                <p th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}"
+                   class="errors alert alert-warning">
+                    Please select an email.
+                </p>
+            </div>
+
+        </div>
+        <br>
+        <div class="row">
+            <div class="col col-md-4">
+                <div class="button-holder d-flex">
+                        <input type="submit" class="btn btn-info btn-lg" style="background-color: #007bff; border-color: #007bff" th:value="#{remove_admin}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<div>
+    <footer></footer>
+</div>
+</body>
+
+</html>
