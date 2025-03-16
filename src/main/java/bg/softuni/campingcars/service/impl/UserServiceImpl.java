@@ -1,12 +1,12 @@
 package bg.softuni.campingcars.service.impl;
 
+import bg.softuni.campingcars.model.dto.bindingModels.ChangePasswordBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.UpdateProfileBindingModel;
 import bg.softuni.campingcars.model.entity.User;
 import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 import bg.softuni.campingcars.repository.UserRepository;
 import bg.softuni.campingcars.service.AuthenticationService;
 import bg.softuni.campingcars.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateProfile(UUID uuid, UpdateProfileBindingModel updateProfileBindingModel) {
+    public boolean updateProfile(UUID uuid, UpdateProfileBindingModel updateProfileBindingModel) {
         if (isCurrentUser(uuid) && updateProfileBindingModel != null
                 && this.userRepository.findByUuid(uuid).isPresent()) {
 
@@ -61,7 +60,7 @@ public class UserServiceImpl implements UserService {
                     boolean present = this.userRepository.findByEmail(updateProfileBindingModel.email()).isPresent();
 
                     if (present) {
-                        return "Email is used by another user";
+                        return false;
                     }
 
                     user.setEmail(updateProfileBindingModel.email());
@@ -76,10 +75,49 @@ public class UserServiceImpl implements UserService {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                return null;
+                return true;
             }
         }
-        return "Please login";
+        return false;
+    }
+
+    @Override
+    public ChangePasswordBindingModel getUserDetailsForChangePassword(UUID uuid) {
+        if (isCurrentUser(uuid)) {
+            return new ChangePasswordBindingModel(
+                    getUserDetails().getUuid(),
+                    getUserDetails().getPassword(),
+                    getUserDetails().getPassword(),
+                    getUserDetails().getPassword()
+            );
+        }
+        return null;
+    }
+
+    @Override
+    public boolean changePassword(UUID uuid, ChangePasswordBindingModel changePasswordBindingModel) {
+        if (isCurrentUser(uuid) && changePasswordBindingModel != null
+                && this.userRepository.findByUuid(uuid).isPresent()) {
+
+            User user = this.userRepository.findByUuid(uuid).get();
+
+            if (this.passwordEncoder.matches(changePasswordBindingModel.oldPassword(), user.getPassword())
+            && changePasswordBindingModel.newPassword().equals(changePasswordBindingModel.confirmNewPassword())
+            && !this.passwordEncoder.matches(changePasswordBindingModel.newPassword(), user.getPassword())) {
+
+                user.setPassword(passwordEncoder.encode(changePasswordBindingModel.newPassword()));
+                this.userRepository.save(user);
+
+                UserDetails updatedUserDetails = this.userDetailsService.loadUserByUsername(user.getEmail());
+
+                Authentication authentication = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     public boolean isCurrentUser(UUID uuid) {

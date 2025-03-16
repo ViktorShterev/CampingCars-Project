@@ -1,14 +1,12 @@
 package bg.softuni.campingcars.web;
 
-import bg.softuni.campingcars.model.dto.bindingModels.UpdateOfferBindingModel;
+import bg.softuni.campingcars.model.dto.bindingModels.ChangePasswordBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.UpdateProfileBindingModel;
 import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 import bg.softuni.campingcars.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +46,7 @@ public class UserController {
 
     @PreAuthorize("@userServiceImpl.isCurrentUser(#uuid)")
     @PutMapping("/profile/edit/{uuid}")
-    public ModelAndView update(@PathVariable("uuid") UUID uuid,
+    public ModelAndView updateProfile(@PathVariable("uuid") UUID uuid,
                                @ModelAttribute("userDetailsForUpdateProfile")
                                @Valid UpdateProfileBindingModel userDetailsForUpdateProfile,
                                BindingResult bindingResult) {
@@ -61,11 +59,50 @@ public class UserController {
             return modelAndView;
         }
 
-        String updated = this.userService.updateProfile(uuid, userDetailsForUpdateProfile);
+        boolean updated = this.userService.updateProfile(uuid, userDetailsForUpdateProfile);
 
-        if (updated != null) {
+        if (!updated) {
             modelAndView.addObject("hasErrors", true);
             modelAndView.addObject("updateProfileBindingModel", userDetailsForUpdateProfile);
+            return modelAndView;
+        }
+
+        return new ModelAndView("redirect:/users/profile");
+    }
+
+    @PreAuthorize("@userServiceImpl.isCurrentUser(#uuid)")
+    @GetMapping("/profile/edit/password/{uuid}")
+    public ModelAndView editPassword(@PathVariable("uuid") UUID uuid) {
+        ChangePasswordBindingModel changePasswordBindingModel = this.userService.getUserDetailsForChangePassword(uuid);
+
+        if (changePasswordBindingModel != null) {
+            ModelAndView modelAndView = new ModelAndView("change-password");
+            modelAndView.addObject("changePasswordBindingModel", changePasswordBindingModel);
+            return modelAndView;
+        }
+        return new ModelAndView("redirect:/users/login");
+    }
+
+    @PreAuthorize("@userServiceImpl.isCurrentUser(#uuid)")
+    @PutMapping("/profile/edit/password/{uuid}")
+    public ModelAndView changePassword(@PathVariable("uuid") UUID uuid,
+                               @ModelAttribute("changePasswordBindingModel")
+                               @Valid ChangePasswordBindingModel changePasswordBindingModel,
+                               BindingResult bindingResult) {
+
+        ModelAndView modelAndView = new ModelAndView("change-password");
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("changePasswordBindingModel", changePasswordBindingModel);
+            modelAndView.addObject("org.springframework.validation.BindingResult.updateProfileBindingModel", bindingResult);
+            return modelAndView;
+        }
+
+        boolean updated = this.userService.changePassword(uuid, changePasswordBindingModel);
+
+        if (!updated) {
+            modelAndView.addObject("hasErrors", true);
+            modelAndView.addObject("changePasswordBindingModel", changePasswordBindingModel);
             return modelAndView;
         }
 

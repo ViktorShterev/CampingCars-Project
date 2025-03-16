@@ -1,5 +1,6 @@
 package bg.softuni.campingcars.service;
 
+import bg.softuni.campingcars.model.dto.bindingModels.ChangePasswordBindingModel;
 import bg.softuni.campingcars.model.dto.bindingModels.UpdateProfileBindingModel;
 import bg.softuni.campingcars.model.user.CampingCarsUserDetails;
 
@@ -11,5 +12,9 @@ public interface UserService {
 
     UpdateProfileBindingModel getUserDetailsForUpdateProfile(UUID uuid);
 
-    String updateProfile(UUID uuid, UpdateProfileBindingModel updateProfileBindingModel);
+    boolean updateProfile(UUID uuid, UpdateProfileBindingModel updateProfileBindingModel);
+
+    ChangePasswordBindingModel getUserDetailsForChangePassword(UUID uuid);
+
+    boolean changePassword(UUID uuid, ChangePasswordBindingModel changePasswordBindingModel);
 }
