@@ -1,7 +1,7 @@
 Camping Cars Marketplace
 ============================
 
-Welcome to the **Camping Cars Marketplace** platform! This project is designed to create a seamless experience for users to **offer, buy, or explore campers and caravans**. Whether you're a seller looking for a buyer or a traveler searching for the perfect vehicle, this platform has got you covered.
+Welcome to the **Camping Cars Marketplace** platform! This project is designed to create a seamless experience for users to **offer and explore campers and caravans**. Whether you're a seller looking for a buyer or a traveler searching for the perfect vehicle, this platform has got you covered.
 
 🚀 Features
 -----------
