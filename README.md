@@ -6,7 +6,7 @@ Welcome to the **Camping Cars Marketplace** platform! This project is designed t
 🚀 Features
 -----------
 
-*   **🛒 Marketplace Functionality**: Users can list, search, and buy campers and caravans.
+*   **🛒 Marketplace Functionality**: Users can list and search campers and caravans.
     
 *   **🌍 Internationalization**: Supports two languages for global reach.
     
