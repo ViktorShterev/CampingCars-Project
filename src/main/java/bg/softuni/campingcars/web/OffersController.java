@@ -20,14 +20,28 @@ public class OffersController {
 
     @GetMapping("/all")
     public ModelAndView offerCategory(@PageableDefault(
-                                            size = 3,
-                                            sort = "uuid"
-                                        ) Pageable pageable) {
+            size = 3,
+            sort = "uuid"
+    ) Pageable pageable) {
 
         Page<OfferViewModel> allOffers = this.offersService.findAllOffers(pageable);
 
         ModelAndView modelAndView = new ModelAndView("all-offers-categories");
         modelAndView.addObject("offers", allOffers);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/user")
+    public ModelAndView offerUser(@PageableDefault(
+            size = 3,
+            sort = "uuid"
+    ) Pageable pageable) {
+
+        Page<OfferViewModel> userOffers = this.offersService.findUserOffers(pageable);
+
+        ModelAndView modelAndView = new ModelAndView("user-offers");
+        modelAndView.addObject("offers", userOffers);
 
         return modelAndView;
     }

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/head}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .filter-button.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div>
+    <nav th:replace="~{fragments/navbar}"></nav>
+</div>
+
+<div class="container">
+    <h2 class="text-center text-white mb-4" th:text="#{navbar_offers}">My Offers</h2>
+    <div class="mb-4">
+        <button class="btn btn-outline-primary filter-button" id="camperButton" data-filter="CAMPER" onclick="filterOffers('CAMPER')" th:text="#{category_camper}">Camper</button>
+        <button class="btn btn-outline-primary filter-button" id="caravanButton" data-filter="CARAVAN" onclick="filterOffers('CARAVAN')" th:text="#{category_caravan}">Caravan</button>
+    </div>
+    <div class="row" id="offersContainer">
+        <div th:each="offer : ${offers}" class="col-md-4 mb-4 offer-card" th:data-category="${offer.category}">
+            <div class="card bg-dark text-white">
+                <img th:src="@{${offer.imageUrl}}" class="card-img-top" width="120px" height="200px" th:alt="${offer.model}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${offer.brand}"></h5>
+                    <h6 class="card-title" th:text="${offer.model}"></h6>
+                    <p class="card-text" th:text="${offer.year}"></p>
+                    <p class="card-text" th:text="${offer.price} + ' BGN'"></p>
+                    <a th:href="@{/offer/details/{uuid}(uuid=${offer.uuid})}" class="btn btn-info" style="background-color: #007bff; border-color: #007bff" th:text="#{offers_view_details}">View Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            <!-- First page logic start -->
+            <li class="page-item" th:classappend="${offers.isFirst() ? 'disabled' : ''}">
+                <a th:if="${offers.isFirst()}" class="page-link" href="#" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+                <a th:unless="${offers.isFirst()}" class="page-link" th:href="@{/offers/user(size=${offers.getSize()})}" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <!-- EO: First page logic start -->
+
+            <!-- Previous page logic start -->
+            <li class="page-item" th:classappend="${offers.isFirst() ? 'disabled' : ''}">
+                <a th:if="${offers.isFirst()}" class="page-link" href="#" aria-label="Previous">
+                    <span th:text="'&laquo; ' + #{page_previous}" aria-hidden="true">&laquo;</span>
+                </a>
+                <a th:unless="${offers.isFirst()}" class="page-link" th:href="@{/offers/user(size=${offers.getSize()}, page=${offers.getNumber() - 1})}" aria-label="Previous">
+                    <span th:text="'&laquo; ' + #{page_previous}" aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <!-- EO: Previous page logic end -->
+
+            <!-- Next page logic start -->
+            <li class="page-item" th:classappend="${offers.isLast() ? 'disabled' : ''}">
+                <a th:if="${offers.isLast()}" class="page-link" href="#" aria-label="Next">
+                    <span th:text="#{page_next} + ' &raquo;'" aria-hidden="true">&raquo;</span>
+                </a>
+                <a th:unless="${offers.isLast()}" class="page-link" th:href="@{/offers/user(size=${offers.getSize()}, page=${offers.getNumber() + 1})}" aria-label="Next">
+                    <span th:text="#{page_next} + ' &raquo;'" aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <!-- EO: Next page logic end -->
+
+            <!-- Last page logic start -->
+            <li class="page-item" th:classappend="${offers.isLast() ? 'disabled' : ''}">
+                <a th:if="${offers.isLast()}" class="page-link" href="#" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+                <a th:unless="${offers.isLast()}" class="page-link" th:href="@{/offers/user(size=${offers.getSize()}, page=${offers.getTotalPages() - 1})}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+            <!-- EO: Last page logic end -->
+
+        </ul>
+    </nav>
+</div>
+
+<script>
+    function filterOffers(category) {
+        const buttons = document.querySelectorAll('.filter-button');
+        buttons.forEach(btn => {
+            if (btn.getAttribute('data-filter') === category) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        const offers = document.querySelectorAll('.offer-card');
+        offers.forEach(offer => {
+            const offerCategory = offer.getAttribute('data-category');
+
+            if (category === "ALL" || offerCategory === category) {
+                offer.style.display = 'block';
+            } else {
+                offer.style.display = 'none';
+            }
+        });
+    }
+
+    // Initial call to show all offers on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        filterOffers("ALL");
+    });
+</script>
+</body>
+</html>
+
+
+<div>
+    <footer></footer>
+</div>
+
+</body>
+</html>
