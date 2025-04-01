@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface OffersService {
 
     Page<OfferViewModel> findAllOffers(Pageable pageable);
+
+    Page<OfferViewModel> findUserOffers(Pageable pageable);
 }
