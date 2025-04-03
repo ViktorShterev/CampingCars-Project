@@ -1,6 +1,5 @@
 package bg.softuni.campingcars.init;
 
-import bg.softuni.campingcars.config.OpenExchangeRateConfig;
 import bg.softuni.campingcars.repository.ExchangeRateRepository;
 import bg.softuni.campingcars.service.util.RefreshingRatesUtil;
 import lombok.RequiredArgsConstructor;
