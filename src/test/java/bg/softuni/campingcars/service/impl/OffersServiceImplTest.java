@@ -9,6 +9,7 @@ import bg.softuni.campingcars.model.enums.CategoryEnum;
 import bg.softuni.campingcars.model.enums.EngineEnum;
 import bg.softuni.campingcars.model.enums.TransmissionEnum;
 import bg.softuni.campingcars.repository.OfferRepository;
+import bg.softuni.campingcars.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,9 +38,12 @@ class OffersServiceImplTest {
     @Mock
     private OfferRepository mockOfferRepository;
 
+    @Mock
+    private AuthenticationService mockAuthenticationService;
+
     @BeforeEach
     void setUp() {
-        toTest = new OffersServiceImpl(mockOfferRepository);
+        toTest = new OffersServiceImpl(mockOfferRepository, mockAuthenticationService);
     }
 
     @Test
