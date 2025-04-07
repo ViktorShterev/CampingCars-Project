@@ -27,6 +27,7 @@
                         <span th:text="'• ' + #{offer_description} + ':'">• Description</span>
                         <th:block th:text="${offer.description()}"></th:block>
                     </div>
+                    <br>
                     <div th:if="${offer.category == 'CAMPER'}" class="card-text">
                         <span th:text="'• ' + #{offer_mileage} + ':'">• Mileage</span>
                         <th:block th:text="${offer.mileage}"></th:block>
