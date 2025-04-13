@@ -122,40 +122,4 @@ public class BrandServiceImpl implements BrandService {
             }
         }
     }
-
-//    @Override
-//    public void addBrandModel(BrandModelAddBindingModel brandModelAddBindingModel) {
-//
-//        if (brandModelAddBindingModel != null) {
-//
-//            Optional<Brand> brandOptional = this.brandRepository.findByName(brandModelAddBindingModel.brand());
-//
-//            if (brandOptional.isPresent()) {
-//                Brand brand = brandOptional.get();
-//
-//                updatingBrand(brandModelAddBindingModel, brand);
-//
-//            } else {
-//                Brand brand = new Brand()
-//                        .setName(brandModelAddBindingModel.brand());
-//
-//                updatingBrand(brandModelAddBindingModel, brand);
-//            }
-//        }
-//    }
-//
-//    private void updatingBrand(BrandModelAddBindingModel brandModelAddBindingModel, Brand brand) {
-//        Category category = this.categoryRepository.findByCategory(brandModelAddBindingModel.category())
-//                .orElseThrow(() -> new RuntimeException("Category not found"));
-//
-//        Model model = new Model()
-//                .setName(brandModelAddBindingModel.model())
-//                .setCategory(category);
-//
-//        brand.getModels().add(model);
-//        this.brandRepository.save(brand);
-//
-////        model.setBrand(brand);
-//        this.modelRepository.save(model);
-//    }
 }
